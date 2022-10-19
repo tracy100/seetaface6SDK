@@ -31,12 +31,12 @@ public class LoadNativeCore {
     /**
      * 是否加载过
      */
-    private static boolean isLoad = false;
+    private static volatile boolean isLoaded = false;
 
 
     private static synchronized void loadLib(SeetaDevice seetaDevice) {
 
-        if (!isLoad) {
+        if (!isLoaded) {
             String device = seetaDevice.getValue() == 2 ? "GPU" : "CPU";
             //logger.info("开始加载dll");
             InputStream var1 = LoadNativeCore.class.getResourceAsStream(getPropertiesPathByOs());
@@ -88,7 +88,7 @@ public class LoadNativeCore {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            isLoad = true;
+            isLoaded = true;
         }
     }
 
