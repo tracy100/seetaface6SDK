@@ -1,54 +1,54 @@
 # seetaface6SDK
 
 #### 介绍
-{**以下是 seetaface6SDK 平台说明**
- 
- 1.window10 环境需要安装 cn_visual_studio_community_2015_x86_dvd_6847368.iso（安装时注意选择c++环境，不知道就百度），jdk8-jdk14任选。
- 
- 2.linux 环境需要安装 cmake-3.12.4.tar.gz，jdk8-jdk14任选。
+本项目是基于seetaface6源码编译后，再编译seetaface6JNI源码得到的一个sdk项目，原本想做成自适应windows和linux自适应，以及cpu和gpu选择使用
 
- 3.可以跟着test代码包里面的代码走一遍，再自己引入自己项目中。
-
- 4.本项目可以直接打包成jar，导入本地maven仓库或是私服,其他项目直接引用jar就可以了。
-
- 5.只有windows10和centos7（8没试过）这两种so,乌班图和mac是运行不了的，so只编译了这两种。
-
- 6.GPU环境有点复杂，建议先试试CPU的，GPU环境的配置后面再提交说明。
-
- 7.模型文件自己去下载了，这里不提供。
-
- 8.建了个Q企鹅Q群：290690355
- 
- 9.觉得好的是不是可以点个star？
 #### 软件架构
-软件架构说明
+基于seetaface6 c++源码编译，基于JNI技术，通过编译c++ 得到dll和so。
 
 
 #### 安装教程
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+1.  window10 环境需要安装 visual_studio（安装时注意选择c++环境，不知道就百度），jdk8-jdk14任选。
+2.  linux 环境需要安装 cmake-3.12.4.tar.gz，jdk8-jdk14任选。
+3.  可以跟着test代码包里面的代码走一遍，了解使用方法，再自己引入自己项目中。
+4.  本项目可以直接打包成jar，导入本地maven仓库或是私服,其他项目直接引用jar就可以了。
+5.  只有windows10和centos7（8没试过）这两种so,乌班图和mac是运行不了的，so只编译了这两种。
+6.  GPU环境有点复杂，建议先试试CPU的，GPU环境的配置后面再提交说明。
+7.  模型文件自己去下载了，这里不提供。
+8.  建了个Q企鹅Q群：290690355
+9.  觉得好的是不是可以点个star？
 
 #### 使用说明
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+模型介绍：模型自己去官网下载
 
-#### 参与贡献
+| 模型                           | 模型说明                                                     | 备注                          |
+| ------------------------------ | ------------------------------------------------------------ | ----------------------------- |
+| face_recognizer.csta           | 高精度人脸识别人脸向量特征提取模型，建议阈值：0.62           | 返回1024长度向量特征          |
+| face_recognizer_mask.csta      | 戴口罩人脸向量特征提取模型，建议阈值：0.48                   | 返回512长度向量特征           |
+| face_recognizer_light.csta     | 轻量级人脸向量特征提取模型，建议阈值：0.55                   | 返回512长度向量特征           |
+| age_predictor.csta             | 年龄预测模型                                                 | 返回int[0]                    |
+| face_landmarker_pts5.csta      | 5点人脸标识模型, 确定 两眼、两嘴角和鼻尖                     | SeetaPointF[] 即 x，y坐标数组 |
+| face_landmarker_pts68.csta     | 68点人脸标识模型， 人脸68个特征点                            | SeetaPointF[] 即 x，y坐标数组 |
+| pose_estimation.csta           | 人脸姿态评估                                                 |                               |
+| eye_state.csta                 | 眼睛状态评估                                                 | 打开 关闭状态                 |
+| face_detector.csta             | 人脸检测器，检测到的每个人脸位置，用矩形表示                 |                               |
+| face_landmarker_mask_pts5.csta | 遮挡评估，判断的遮挡物为五个关键点，分别是左右眼中心、鼻尖和左右嘴角 | 1：遮挡，  0：没遮挡          |
+| mask_detector.csta             | 口罩检测器                                                   | false:0.0089 或  true:0.985   |
+| gender_predictor.csta          | 性别识别                                                     |                               |
+| quality_lbn.csta               | 清晰度评估模型                                               |                               |
+| fas_first.csta                 | 活体检测识别器 局部检测模型                                  |                               |
+| fas_second.csta                | 活体检测识别器 `全局检测`模型                                |                               |
 
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
-
+压力测试：
+ 测试类FaceRecognizerProxyTest ，可以尝试自己加多线程测试，本项目通过代码通过对象池调用，本地测试不存在内存泄露问题。
 
 #### 特技
 
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+1.  可以做人脸跟踪
+2.  真假人脸判断
+3.  年龄，性别判断
+4.  质量检测
+5.  后续会开放docker
+6.  后续做1：N 用opensearch，能够达到10亿搜索量
