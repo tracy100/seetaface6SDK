@@ -22,7 +22,7 @@ public class MaskDetectorProxyTest {
 
     public static String[] landmarker_cstas = {CSTA_PATH + "/face_landmarker_pts5.csta"};
 
-    public static String[] gender_predictor_cstas = {CSTA_PATH + "/gender_predictor.csta"};
+    public static String[] mask_detector_cstas = {CSTA_PATH + "/mask_detector.csta"};
 
 
     public static String fileName = "D:\\face\\image\\me\\00.jpg";
@@ -42,7 +42,7 @@ public class MaskDetectorProxyTest {
         FaceDetectorProxy faceDetectorProxy = new FaceDetectorProxy(detectorPoolSetting);
 
         //口罩检测器对象池配置，可以配置对象的个数哦
-        SeetaConfSetting maskDetectorPoolSetting = new SeetaConfSetting(new SeetaModelSetting(0, gender_predictor_cstas, SeetaDevice.SEETA_DEVICE_AUTO));
+        SeetaConfSetting maskDetectorPoolSetting = new SeetaConfSetting(new SeetaModelSetting(0, mask_detector_cstas, SeetaDevice.SEETA_DEVICE_AUTO));
         //口罩检测器对象池代理 ， spring boot可以用MaskDetectorProxy来配置Bean
         MaskDetectorProxy maskDetectorProxy = new MaskDetectorProxy(maskDetectorPoolSetting);
 
