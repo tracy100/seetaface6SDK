@@ -6,6 +6,9 @@ import com.seeta.sdk.util.SeetafaceUtil;
 
 import java.util.Arrays;
 
+/**
+ * 眼睛开闭状态检测
+ */
 public class EyeTest {
 
     public static String CSTA_PATH = "D:\\face\\models";
@@ -17,15 +20,19 @@ public class EyeTest {
 
     public static void main(String[] args) {
 
+        //模型文件
         String[] detector_cstas = {CSTA_PATH + "/face_detector.csta"};
         String[] landmarker_cstas = {CSTA_PATH + "/face_landmarker_pts5.csta"};
-
+        //眼睛状态检测的模型文件
         String[] eye_cstas = {CSTA_PATH + "/eye_state.csta"};
         try {
+            //人脸检测器
             FaceDetector detector = new FaceDetector(new SeetaModelSetting(-1, detector_cstas, SeetaDevice.SEETA_DEVICE_AUTO));
 
+            //人脸关键点定位器
             FaceLandmarker faceLandmarker = new FaceLandmarker(new SeetaModelSetting(-1, landmarker_cstas, SeetaDevice.SEETA_DEVICE_AUTO));
 
+            //眼睛状态检测器
             EyeStateDetector eyeStateDetector = new EyeStateDetector(new SeetaModelSetting(-1, eye_cstas, SeetaDevice.SEETA_DEVICE_AUTO));
 
             SeetaImageData image = SeetafaceUtil.toSeetaImageData(TEST_PICT);

@@ -11,6 +11,10 @@ import com.seeta.sdk.util.SeetafaceUtil;
 
 import java.util.Arrays;
 
+/**
+ * 对象池代理
+ * 眼睛状态检测
+ */
 public class EyeStateDetectorProxyTest {
 
     public static String CSTA_PATH = "D:\\face\\models";
@@ -23,20 +27,28 @@ public class EyeStateDetectorProxyTest {
 
     public static String TEST_PICT = "D:\\face\\image\\mask\\mask3.jpeg";
 
+    /**
+     * 加载dll
+     */
     static {
         LoadNativeCore.LOAD_NATIVE(SeetaDevice.SEETA_DEVICE_AUTO);
     }
 
     public static void main(String[] args) {
 
+        //人脸识别检测器对象池配置，可以配置对象的个数哦
         SeetaConfSetting detectorPoolSetting = new SeetaConfSetting(new SeetaModelSetting(0, detector_cstas, SeetaDevice.SEETA_DEVICE_AUTO));
+        //人脸检测器对象池代理 ， spring boot可以用FaceDetectorProxy来配置Bean
         FaceDetectorProxy faceDetectorProxy = new FaceDetectorProxy(detectorPoolSetting);
 
+        //人脸关键点定位器对象池配置
         SeetaConfSetting faceLandmarkerPoolSetting = new SeetaConfSetting(new SeetaModelSetting(0, landmarker_cstas, SeetaDevice.SEETA_DEVICE_AUTO));
+        //人脸关键点定位器对象池代理 ， spring boot可以用FaceLandmarkerProxy来配置Bean
         FaceLandmarkerProxy faceLandmarkerProxy = new FaceLandmarkerProxy(faceLandmarkerPoolSetting);
 
+        //眼睛状态检测器 对象池配置
         SeetaConfSetting eyeStateDetectorPoolSetting = new SeetaConfSetting(new SeetaModelSetting(0, eye_cstas, SeetaDevice.SEETA_DEVICE_AUTO));
-
+        //眼睛状态检测器对象池代理 ， spring boot可以用EyeStateDetectorProxy来配置Bean
         EyeStateDetectorProxy eyeStateDetectorProxy = new EyeStateDetectorProxy(eyeStateDetectorPoolSetting);
 
         try {

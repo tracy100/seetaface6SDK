@@ -29,10 +29,14 @@ public class QualityOfPoseExProxyTest {
 
     public static void main(String[] args) {
 
+        //人脸识别检测器对象池配置，可以配置对象的个数哦
         SeetaConfSetting detectorPoolSetting = new SeetaConfSetting(new SeetaModelSetting(0, detector_cstas, SeetaDevice.SEETA_DEVICE_AUTO));
+        //人脸检测器对象池代理 ， spring boot可以用FaceDetectorProxy来配置Bean
         FaceDetectorProxy faceDetectorProxy = new FaceDetectorProxy(detectorPoolSetting);
 
+        //人脸关键点定位器对象池配置
         SeetaConfSetting faceLandmarkerPoolSetting = new SeetaConfSetting(new SeetaModelSetting(0, landmarker_cstas, SeetaDevice.SEETA_DEVICE_AUTO));
+        //人脸关键点定位器对象池代理 ， spring boot可以用FaceLandmarkerProxy来配置Bean
         FaceLandmarkerProxy faceLandmarkerProxy = new FaceLandmarkerProxy(faceLandmarkerPoolSetting);
 
         SeetaConfSetting setting = new SeetaConfSetting(new SeetaModelSetting(0, pose_estimation_cstas, SeetaDevice.SEETA_DEVICE_AUTO));

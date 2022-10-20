@@ -2,6 +2,7 @@ package com.seeta.sdk.proxy;
 
 import com.seeta.pool.SeetaConfSetting;
 import com.seeta.proxy.FaceDetectorProxy;
+import com.seeta.proxy.FaceLandmarkerProxy;
 import com.seeta.proxy.PoseEstimatorProxy;
 import com.seeta.sdk.SeetaDevice;
 import com.seeta.sdk.SeetaImageData;
@@ -30,7 +31,9 @@ public class PoseEstimatorProxyTest {
 
     public static void main(String[] args) {
 
+        //人脸识别检测器对象池配置，可以配置对象的个数哦
         SeetaConfSetting detectorPoolSetting = new SeetaConfSetting(new SeetaModelSetting(0, detector_cstas, SeetaDevice.SEETA_DEVICE_AUTO));
+        //人脸检测器对象池代理 ， spring boot可以用FaceDetectorProxy来配置Bean
         FaceDetectorProxy faceDetectorProxy = new FaceDetectorProxy(detectorPoolSetting);
 
         SeetaConfSetting poseEstimatorPoolSetting = new SeetaConfSetting(new SeetaModelSetting(0, pose_estimation_cstas, SeetaDevice.SEETA_DEVICE_AUTO));
