@@ -20,10 +20,7 @@ public class MaskDetectorProxyTest {
 
     public static String[] detector_cstas = {CSTA_PATH + "/face_detector.csta"};
 
-    public static String[] landmarker_cstas = {CSTA_PATH + "/face_landmarker_pts5.csta"};
-
     public static String[] mask_detector_cstas = {CSTA_PATH + "/mask_detector.csta"};
-
 
     public static String fileName = "D:\\face\\image\\me\\00.jpg";
 
