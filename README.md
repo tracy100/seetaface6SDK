@@ -4,12 +4,10 @@
 本项目是基于seetaface6源码编译后，再编译seetaface6JNI源码得到的一个sdk项目，原本想做成自适应windows和linux自适应，以及cpu和gpu选择使用
 
 #### 演示图片
-攻击人脸检测，spoof为攻击人脸，real为真人脸：
-![Image text](https://gitee.com/crazy-of-pig/seeta-sdk-platform/blob/master/img/%E6%94%BB%E5%87%BB%E4%BA%BA%E8%84%B8%E6%A3%80%E6%B5%8B.jpg)
+![Image text](https://gitee.com/crazy-of-pig/seeta-sdk-platform/raw/master/img/%E6%94%BB%E5%87%BB%E4%BA%BA%E8%84%B8%E6%A3%80%E6%B5%8B.jpg)
 
 #### 测试代码
-代码注释详细，阅读方便：
-![Image text](https://gitee.com/crazy-of-pig/seeta-sdk-platform/blob/master/img/code.png)
+![Image text](https://gitee.com/crazy-of-pig/seeta-sdk-platform/raw/master/img/code.png)
 
 #### 功能
 1.  人脸检测和关键点定位
