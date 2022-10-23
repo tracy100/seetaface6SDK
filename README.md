@@ -76,3 +76,5 @@
 5.  后续会开放docker
 6.  后续做1：N 用opensearch，能够达到10亿搜索量
 
+#### QQ
+![Image text](https://gitee.com/crazy-of-pig/seeta-sdk-platform/raw/master/img/qq.jpg)
