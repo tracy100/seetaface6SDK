@@ -12,8 +12,8 @@ import java.util.Arrays;
 public class LandmarkerTest {
 
 
-    public static String CSTA_PATH = "D:\\face\\models";
-    public static String TEST_PICT = "D:\\face\\image\\me\\100.jpg";
+    public static String CSTA_PATH = "E:\\models";
+    public static String TEST_PICT = "E:\\111.jpg";
 
     /**
      * 加载dll

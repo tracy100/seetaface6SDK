@@ -6,6 +6,7 @@ import com.seeta.sdk.FaceLandmarker;
 import com.seeta.sdk.SeetaImageData;
 import com.seeta.sdk.SeetaPointF;
 import com.seeta.sdk.SeetaRect;
+import javafx.util.Pair;
 
 
 /**
@@ -44,6 +45,25 @@ public class FaceLandmarkerProxy {
         return pointFS;
     }
 
+    public Pair<SeetaPointF[], int[]> isMask(SeetaImageData imageData, SeetaRect seetaRect) {
+        FaceLandmarker faceLandmarker = null;
+        SeetaPointF[] pointFS = null;
+        int[] masks =  null;
+        try {
+            faceLandmarker = pool.borrowObject();
+            pointFS = new SeetaPointF[faceLandmarker.number()];
+            masks = new int[faceLandmarker.number()];
+            faceLandmarker.mark(imageData, seetaRect, pointFS, masks);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (faceLandmarker != null) {
+                pool.returnObject(faceLandmarker);
+            }
+        }
+        return new Pair<>(pointFS, masks);
+    }
 
     public int number() {
         FaceLandmarker faceLandmarker = null;
