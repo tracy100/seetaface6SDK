@@ -28,11 +28,14 @@ public class AntiSpoofingTest {
         String[] landmarker_cstas = {CSTA_PATH + "/face_landmarker_pts5.csta"};
         try {
             //人脸检测器
-            FaceDetector detector = new FaceDetector(new SeetaModelSetting(0, detector_cstas, SeetaDevice.SEETA_DEVICE_GPU));
+            FaceDetector detector = new FaceDetector(
+                    new SeetaModelSetting(0, detector_cstas, SeetaDevice.SEETA_DEVICE_AUTO));
             //关键点定位器face_landmarker_pts5 就是五个关键点，face_landmarker_pts68就是68个关键点，根据模型文件来的
-            FaceLandmarker faceLandmarker = new FaceLandmarker(new SeetaModelSetting(0, landmarker_cstas, SeetaDevice.SEETA_DEVICE_GPU));
+            FaceLandmarker faceLandmarker = new FaceLandmarker(
+                    new SeetaModelSetting(0, landmarker_cstas, SeetaDevice.SEETA_DEVICE_AUTO));
             //攻击人脸检测器
-            FaceAntiSpoofing faceAntiSpoofing = new FaceAntiSpoofing(new SeetaModelSetting(0, fas_first, SeetaDevice.SEETA_DEVICE_GPU));
+            FaceAntiSpoofing faceAntiSpoofing = new FaceAntiSpoofing(
+                    new SeetaModelSetting(0, fas_first, SeetaDevice.SEETA_DEVICE_AUTO));
 
             SeetaImageData image = SeetafaceUtil.toSeetaImageData(TEST_PICT);
             SeetaRect[] detects = detector.Detect(image);
@@ -43,9 +46,7 @@ public class AntiSpoofingTest {
                 faceLandmarker.mark(image, seetaRect, pointFS,ints);
                 FaceAntiSpoofing.Status predict = faceAntiSpoofing.Predict(image, seetaRect, pointFS);
                 System.out.println(predict);
-
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }

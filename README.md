@@ -1,15 +1,62 @@
 # seetaface6SDK
 
 #### 介绍
-本项目是基于seetaface6源码编译后，再编译seetaface6JNI源码得到的一个sdk项目，原本想做成自适应windows和linux自适应，以及cpu和gpu选择使用
-
+1.  本项目是基于seetaface6源码编译后，再编译seetaface6JNI源码得到的一个sdk项目
+2.  windows和linux环境自适应。
+3.  支持GPU
+4.  使用方便：（1）导入jar包；（2）配置模型文件路径即可使用；无需自己配置dll,so这些东西
 #### 演示真假人脸识别
 1.  spoof为攻击人脸，real为真人脸
 ![Image text](https://gitee.com/crazy-of-pig/seeta-sdk-platform/raw/master/img/%E6%94%BB%E5%87%BB%E4%BA%BA%E8%84%B8%E6%A3%80%E6%B5%8B.jpg)
 
 #### 测试代码
 1.  代码注释详细，方便阅读
-![Image text](https://gitee.com/crazy-of-pig/seeta-sdk-platform/raw/master/img/code.png)
+```java
+public class AntiSpoofingTest {
+
+    public static String CSTA_PATH = "D:\\face\\models";
+    public static String TEST_PICT = "D:\\face\\image\\me\\00.jpg";
+
+    /**
+     * 初始化加载dll
+     */
+    static {
+        LoadNativeCore.LOAD_NATIVE(SeetaDevice.SEETA_DEVICE_AUTO);
+    }
+
+    public static void main(String[] args) {
+        //三个模型文件
+        String[] detector_cstas = {CSTA_PATH + "/face_detector.csta"};
+        // 这里传两个模型才能准确得出结果 （fas_first和fas_second）
+        String[] fas_first = {CSTA_PATH + "/fas_first.csta"};
+        String[] landmarker_cstas = {CSTA_PATH + "/face_landmarker_pts5.csta"};
+        try {
+            //人脸检测器
+            FaceDetector detector = new FaceDetector(
+                    new SeetaModelSetting(0, detector_cstas, SeetaDevice.SEETA_DEVICE_AUTO));
+            //关键点定位器face_landmarker_pts5 就是五个关键点，face_landmarker_pts68就是68个关键点，根据模型文件来的
+            FaceLandmarker faceLandmarker = new FaceLandmarker(
+                    new SeetaModelSetting(0, landmarker_cstas, SeetaDevice.SEETA_DEVICE_AUTO));
+            //攻击人脸检测器
+            FaceAntiSpoofing faceAntiSpoofing = new FaceAntiSpoofing(
+                    new SeetaModelSetting(0, fas_first, SeetaDevice.SEETA_DEVICE_AUTO));
+
+            SeetaImageData image = SeetafaceUtil.toSeetaImageData(TEST_PICT);
+            SeetaRect[] detects = detector.Detect(image);
+            for (SeetaRect seetaRect : detects) {
+                //face_landmarker_pts5 根据这个来的
+                SeetaPointF[] pointFS = new SeetaPointF[5];
+                int[] ints = new int[5];
+                faceLandmarker.mark(image, seetaRect, pointFS,ints);
+                FaceAntiSpoofing.Status predict = faceAntiSpoofing.Predict(image, seetaRect, pointFS);
+                System.out.println(predict);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
 
 #### 功能
 1.  人脸检测和关键点定位
@@ -32,8 +79,8 @@
 
 #### 安装教程
 
-1.  window10 环境需要安装 visual_studio（安装时注意选择c++环境，不知道就百度），jdk8-jdk14任选。
-2.  linux 环境需要安装 cmake-3.12.4.tar.gz，jdk8-jdk14任选。
+1.  （必做）window10 环境需要安装 _**visual_studio**_（安装时注意选择c++环境，不知道就百度），jdk8-jdk14任选。
+2.  （必做）linux 环境需要安装 _**cmake-3.12.4.tar.gz**_，jdk8-jdk14任选。
 3.  可以跟着test代码包里面的代码走一遍，了解使用方法，再自己引入自己项目中。
 4.  本项目可以直接打包成jar，导入本地maven仓库或是私服,其他项目直接引用jar就可以了。
 5.  只有windows10和centos7（8没试过）这两种so,乌班图和mac是运行不了的，so只编译了这两种。
@@ -76,5 +123,5 @@
 5.  后续会开放docker
 6.  后续做1：N 用opensearch，能够达到10亿搜索量
 
-#### QQ
+#### QQ群
 ![Image text](https://gitee.com/crazy-of-pig/seeta-sdk-platform/raw/master/img/qq.jpg)
