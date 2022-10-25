@@ -1,32 +1,30 @@
 package com.seeta.sdk.proxy;
 
 import com.seeta.pool.SeetaConfSetting;
-import com.seeta.proxy.AgePredictorProxy;
 import com.seeta.proxy.FaceDetectorProxy;
 import com.seeta.proxy.FaceLandmarkerProxy;
 import com.seeta.sdk.*;
 import com.seeta.sdk.util.LoadNativeCore;
 import com.seeta.sdk.util.SeetafaceUtil;
-import javafx.util.Pair;
 
 import java.util.Arrays;
 
-
 /**
  * 使用对象池
- * 年龄检测器
+ * 人脸遮挡评估测试
  */
 public class LandmarkerProxyTest {
 
-
+    //模型文件夹路径
     public static String CSTA_PATH = "E:\\models";
 
-    public static String[] detector_cstas = {CSTA_PATH + "/face_detector.csta"};
+    //图片路径
+    public static String fileName = "E:\\111.jpg";
 
+    // 拼接模型路径
+    public static String[] detector_cstas = {CSTA_PATH + "/face_detector.csta"};
     public static String[] face_landmarker_mask_pts5_cstas = {CSTA_PATH + "/face_landmarker_mask_pts5.csta"};
 
-
-    public static String fileName = "E:\\111.jpg";
 
     /**
      * 加载dll
@@ -43,7 +41,7 @@ public class LandmarkerProxyTest {
         //人脸检测器对象池代理 ， spring boot可以用FaceDetectorProxy来配置Bean
         FaceDetectorProxy faceDetectorProxy = new FaceDetectorProxy(detectorPoolSetting);
 
-        //人脸关键点定位器对象池配置
+        //人脸关键点定位器对象池配置，并可以检测遮挡
         SeetaConfSetting faceLandmarkerPoolSetting = new SeetaConfSetting(
                 new SeetaModelSetting(0, face_landmarker_mask_pts5_cstas, SeetaDevice.SEETA_DEVICE_AUTO));
         //人脸关键点定位器对象池代理 ， spring boot可以用FaceLandmarkerProxy来配置Bean
@@ -55,10 +53,11 @@ public class LandmarkerProxyTest {
             //检测人脸，识别到人脸
             SeetaRect[] detects = faceDetectorProxy.detect(image);
             for (SeetaRect seetaRect : detects) {
-                //人脸关键点定位
-                Pair<SeetaPointF[], int[]> mask = faceLandmarkerProxy.isMask(image, seetaRect);
-                System.out.println(Arrays.toString(mask.getKey()));
-                System.out.println(Arrays.toString(mask.getValue()));
+                //人脸关键点定位，人脸遮挡的点位
+                LandmarkerMask mask = faceLandmarkerProxy.isMask(image, seetaRect);
+                //输出
+                System.out.println(Arrays.toString(mask.getSeetaPointFS()));
+                System.out.println(Arrays.toString(mask.getMasks()));
             }
         } catch (Exception e) {
             e.printStackTrace();
