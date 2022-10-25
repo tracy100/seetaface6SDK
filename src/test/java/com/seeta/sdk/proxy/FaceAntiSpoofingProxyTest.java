@@ -9,18 +9,28 @@ import com.seeta.sdk.*;
 import com.seeta.sdk.util.LoadNativeCore;
 import com.seeta.sdk.util.SeetafaceUtil;
 
+/**
+ * 活体检测，攻击人脸检测
+ */
 public class FaceAntiSpoofingProxyTest {
 
-    public static String CSTA_PATH = "D:\\face\\models";
 
+    //模型文件夹路径
+    public static String CSTA_PATH = "E:\\models";
+
+    //图片路径
+    public static String fileName = "E:\\111.jpg";
+
+    // 拼接模型路径
     public static String[] detector_cstas = {CSTA_PATH + "/face_detector.csta"};
 
+    // 人脸关键点定位模型路径拼接
     public static String[] landmarker_cstas = {CSTA_PATH + "/face_landmarker_pts5.csta"};
 
+    //活体检测模型，两个
     public static  String[] fas = {CSTA_PATH + "/fas_first.csta",CSTA_PATH + "/fas_second.csta"};
 
-    public static String fileName = "D:\\face\\image\\me\\00.jpg";
-
+    //加载dll
     static {
         LoadNativeCore.LOAD_NATIVE(SeetaDevice.SEETA_DEVICE_AUTO);
     }
@@ -46,6 +56,7 @@ public class FaceAntiSpoofingProxyTest {
             for (SeetaRect seetaRect : detects) {
                 SeetaPointF[] pointFS = faceLandmarkerProxy.mark(image, seetaRect);
                 FaceAntiSpoofing.Status predict = faceAntiSpoofingProxy.predict(image,seetaRect, pointFS);
+                //输出
                 System.out.println(predict);
             }
         } catch (Exception e) {

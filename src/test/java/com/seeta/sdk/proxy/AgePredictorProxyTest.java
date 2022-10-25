@@ -10,21 +10,24 @@ import com.seeta.sdk.util.SeetafaceUtil;
 
 
 /**
- * 使用对象池
  * 年龄检测器
  */
 public class AgePredictorProxyTest {
 
+    //模型文件夹路径
+    public static String CSTA_PATH = "E:\\models";
 
-    public static String CSTA_PATH = "D:\\face\\models";
+    //图片路径
+    public static String fileName = "E:\\111.jpg";
 
+    //拼接模型文件
+    //人脸识别模型
     public static String[] detector_cstas = {CSTA_PATH + "/face_detector.csta"};
-
+    //人脸关键点模型
     public static String[] landmarker_cstas = {CSTA_PATH + "/face_landmarker_pts5.csta"};
-
+    //年龄评估模型
     public static String[] age_predictor_cstas = {CSTA_PATH + "/age_predictor.csta"};
 
-    public static String fileName = "D:\\face\\image\\me\\00.jpg";
 
     /**
      * 加载dll

@@ -3,6 +3,8 @@ package com.seeta.sdk;
 import com.seeta.sdk.util.LoadNativeCore;
 import com.seeta.sdk.util.SeetafaceUtil;
 
+import java.util.Arrays;
+
 /**
  * 人脸跟踪
  * 人脸跟踪也是基于人脸的基本模块，其要解决的问题是在进行识别之前就利用视频特性，首先就确认在视频序列中出现的那些人是同一人。
@@ -10,9 +12,11 @@ import com.seeta.sdk.util.SeetafaceUtil;
  */
 public class FaceTrackerTest {
 
+    //模型文件夹路径
+    public static String CSTA_PATH = "E:\\models";
 
-    public static String CSTA_PATH = "D:\\face\\models";
-    public static String TEST_PICT = "D:\\face\\image\\me\\11.jpg";
+    //图片路径
+    public static String TEST_PICT = "E:\\111.jpg";
 
     static {
         LoadNativeCore.LOAD_NATIVE(SeetaDevice.SEETA_DEVICE_AUTO);
@@ -29,7 +33,7 @@ public class FaceTrackerTest {
             FaceTracker faceTracker = new FaceTracker( face_detector,image.width,image.height);
             //跟踪到的人脸
             SeetaTrackingFaceInfo[] track = faceTracker.Track(image);
-            System.out.println(track);
+            System.out.println(Arrays.toString(track));
 
         } catch (Exception e) {
             e.printStackTrace();

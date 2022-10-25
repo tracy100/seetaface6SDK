@@ -8,4 +8,19 @@ public class SeetaTrackingFaceInfo {
     public float score;
     public int frame_no;
     public int PID;
+
+
+
+    @Override
+    public String toString() {
+        return "SeetaTrackingFaceInfo{" +
+                "x=" + x +
+                ", y=" + y +
+                ", width=" + width +
+                ", height=" + height +
+                ", score=" + score +
+                ", frame_no=" + frame_no +
+                ", PID=" + PID +
+                '}';
+    }
 }

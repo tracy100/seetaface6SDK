@@ -10,19 +10,20 @@ import com.seeta.sdk.util.LoadNativeCore;
 import com.seeta.sdk.util.SeetafaceUtil;
 
 /**
- * 对象池代理
  * 口罩检测器
  */
 public class MaskDetectorProxyTest {
 
+    //模型文件夹路径
+    public static String CSTA_PATH = "E:\\models";
 
-    public static String CSTA_PATH = "D:\\face\\models";
+    //图片路径
+    public static String fileName = "E:\\111.jpg";
 
+    //模型文件代码
     public static String[] detector_cstas = {CSTA_PATH + "/face_detector.csta"};
-
     public static String[] mask_detector_cstas = {CSTA_PATH + "/mask_detector.csta"};
 
-    public static String fileName = "D:\\face\\image\\me\\00.jpg";
 
     /**
      * 加载dll
