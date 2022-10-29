@@ -24,8 +24,14 @@ public class LoadNativeCore {
      */
     private static final String PROPERTIES_FILE_NAME = "dll.properties";
 
+    public static final String SEETAFACE6 = "seetaface6";
+
     public static void main(String[] args) {
-        loadLib(SeetaDevice.SEETA_DEVICE_AUTO);
+         LOAD_NATIVE(SeetaDevice.SEETA_DEVICE_AUTO);
+
+//        System.out.println(getPrefix());
+//        System.out.println(getPropertiesPath());
+
     }
 
     /**
@@ -34,37 +40,42 @@ public class LoadNativeCore {
     private static volatile boolean isLoaded = false;
 
 
-    private static synchronized void loadLib(SeetaDevice seetaDevice) {
+    public static synchronized void LOAD_NATIVE(SeetaDevice seetaDevice) {
 
         if (!isLoaded) {
-            String device = seetaDevice.getValue() == 2 ? "GPU" : "CPU";
-            //logger.info("开始加载dll");
-            InputStream var1 = LoadNativeCore.class.getResourceAsStream(getPropertiesPathByOs());
+            String device = getDevice(seetaDevice);
+            InputStream var1 = LoadNativeCore.class.getResourceAsStream(getPropertiesPath());
             Properties properties = new Properties();
             try {
                 properties.load(var1);
                 List<DllItem> baseList = new ArrayList<>();
-                List<DllItem> sdkList = new ArrayList<>();
+                List<DllItem> jniList = new ArrayList<>();
 
                 Iterator<Map.Entry<Object, Object>> iterator = properties.entrySet().iterator();
                 while (iterator.hasNext()) {
                     Map.Entry<Object, Object> entry = iterator.next();
                     String key = (String) entry.getKey();
                     String value = (String) entry.getValue();
-                    DllItem dllItem = new DllItem(key, value);
-
+                    DllItem dllItem = new DllItem();
+                    dllItem.setKey(key);
                     if (key.contains("base")) {
+                        if (value.contains("tennis")) {
+                            dllItem.setValue(getPrefix() + "base/" + device + "/" + value);
+                        } else {
+                            dllItem.setValue(getPrefix() + "base/" + value);
+                        }
                         baseList.add(dllItem);
                     } else {
-                        sdkList.add(dllItem);
+                        dllItem.setValue(getPrefix() + value);
+                        jniList.add(dllItem);
                     }
                 }
 
                 /**
                  * 将文件分类
                  */
-                List<String> basePath = getSortedPath(baseList, device);
-                List<String> sdkPath = getSortedPath(sdkList, null);
+                List<String> basePath = getSortedPath(baseList);
+                List<String> sdkPath = getSortedPath(jniList);
 
                 List<File> fileList = new ArrayList<>();
 
@@ -81,9 +92,9 @@ public class LoadNativeCore {
                 // 加载 dll文件
                 fileList.forEach(file -> {
                     System.load(file.getAbsolutePath());
-                    logger.info(String.format("加载 %s 完成", file.getName()));
+                    logger.info(String.format("load %s finish", file.getAbsolutePath()));
                 });
-                logger.info("............加载完成！");
+                logger.info("............END !");
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -92,37 +103,63 @@ public class LoadNativeCore {
         }
     }
 
-    static {
 
+    private static String getArch() {
+        String arch = System.getProperty("os.arch").toLowerCase();
+        if (arch.startsWith("amd64")
+                || arch.startsWith("x86_64")
+                || arch.startsWith("x86-64")
+                || arch.startsWith("x64")) {
+            arch = "amd64";
+        } else if (arch.contains("aarch")) {
+            arch = "aarch64";
+        } else if (arch.contains("arm")) {
+            arch = "arm";
+        }
+        return arch;
     }
 
-    /**
-     * 类加载调用这个方法
-     */
-    public static void LOAD_NATIVE(SeetaDevice seetaDevice) {
-        loadLib(seetaDevice);
+    private static String getDevice(SeetaDevice seetaDevice) {
+        String device = "CPU";
+        if ("amd64".equals(getArch())) {
+            device = seetaDevice.getValue() == 2 ? "GPU" : "CPU";
+        }
+        return device;
     }
 
+
     /**
-     * 通过判断系统类型，获取配置文件路径
+     * 获取dll配置文件路径
      *
      * @return String
      */
-    private static String getPropertiesPathByOs() {
-        String path = "";
+    private static String getPropertiesPath() {
+
+        return getPrefix() + PROPERTIES_FILE_NAME;
+    }
+
+    /**
+     * 返回路径文件前缀
+     *
+     * @return
+     */
+    private static String getPrefix() {
+        String arch = getArch();
+        //aarch64
         String os = System.getProperty("os.name");
         //Windows操作系统
         if (os != null && os.toLowerCase().startsWith("windows")) {
-            logger.info("windows系统");
-            path = "/windows_x64/";
+            //logger.info("windows系统");
+            os = "/windows/";
         } else if (os != null && os.toLowerCase().startsWith("linux")) {//Linux操作系统
-            logger.info("linux系统");
-            path = "/linux_centos/";
+            //logger.info("linux系统");
+            os = "/linux/";
         } else { //其它操作系统
             //安卓 乌班图等等，先不写
             return null;
         }
-        return path + PROPERTIES_FILE_NAME;
+        // "/seetaface6/windows/amd64"
+        return "/" + SEETAFACE6 + os + arch + "/";
     }
 
 
@@ -130,24 +167,14 @@ public class LoadNativeCore {
      * 将获得的配置进行排序 并生成路径
      *
      * @param list
-     * @param device 驱动 GPU 还是 CPU
      * @return List<String>
      */
-    private static List<String> getSortedPath(List<DllItem> list, String device) {
+    private static List<String> getSortedPath(List<DllItem> list) {
         List<String> sortedPath = list.stream().sorted(Comparator.comparing(dllItem -> {
             int i = dllItem.getKey().lastIndexOf(".") + 1;
             String substring = dllItem.getKey().substring(i);
             return Integer.valueOf(substring);
-        })).map(dllItem -> {
-            int i = dllItem.getKey().lastIndexOf(".");
-            String keyStr = dllItem.getKey().substring(0, i);
-            keyStr = keyStr.replace(".", "/");
-            if (device != null && device != "" && dllItem.getValue().contains("tennis")) {
-                return "/" + keyStr + "/" + device + "/" + dllItem.getValue();
-            } else {
-                return "/" + keyStr + "/" + dllItem.getValue();
-            }
-        }).collect(Collectors.toList());
+        })).map(dllItem -> dllItem.getValue()).collect(Collectors.toList());
         return sortedPath;
     }
 
@@ -159,13 +186,11 @@ public class LoadNativeCore {
      * @throws IOException
      */
     private static File copyDLL(String path) throws IOException {
-
         String nativeTempDir = System.getProperty("java.io.tmpdir");
-
         File extractedLibFile = new File(nativeTempDir + File.separator + path);
         mkdirs(extractedLibFile.getParent());
         InputStream in = LoadNativeCore.class.getResourceAsStream(path);
-        writeToLocal(extractedLibFile.getAbsolutePath(), in);
+        writeToLocalTemp(extractedLibFile.getAbsolutePath(), in);
 
         return extractedLibFile;
     }
@@ -178,7 +203,7 @@ public class LoadNativeCore {
      * @param input       输入流
      * @throws IOException IOException
      */
-    private static void writeToLocal(String destination, InputStream input)
+    private static void writeToLocalTemp(String destination, InputStream input)
             throws IOException {
         int index;
         byte[] bytes = new byte[1024];
