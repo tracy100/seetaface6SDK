@@ -2,9 +2,9 @@
 
 #### 介绍
 1. 本项目是基于seetaface6源码编译后，再编译seetaface6JNI源码得到的一个sdk项目
-2. windows和linux环境自适应。
-3. 支持GPU
-4. 使用方便：（1）导入jar包；（2）配置模型文件路径即可使用；无需自己配置dll,so这些东西
+2. windows和linux环境自适应，直至aarch64环境（待测）
+3. 支持GPU（需要低版本cuda）
+4. 使用方便：只依赖jdk，打开就用。
 
 #### 软件架构
 
@@ -13,8 +13,8 @@
 
 #### 安装教程
 
-1.  （必做）window10 环境需要安装jdk8-jdk14任选。
-2.  （必做）linux 环境需要安装 _**cmake-3.12.4.tar.gz**_，jdk8-jdk14任选。
+1.  （必做）window10 环境需要安装 jdk8-jdk14任选。
+2.  （必做）linux 环境需要安装 jdk8-jdk14任选。
 3.  可以跟着test代码包里面的代码走一遍，了解使用方法，再自己引入自己项目中。
 4.  本项目可以直接打包成jar，导入本地maven仓库或是私服,其他项目直接引用jar就可以了。
 5.  只有windows10和centos7（centos8没试过，应该可以用）这两种so。
