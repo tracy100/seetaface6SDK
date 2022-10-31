@@ -2,7 +2,7 @@
 
 #### 介绍
 1. 本项目是基于seetaface6源码编译后，再编译seetaface6JNI源码得到的一个sdk项目
-2. windows和linux环境自适应，直至aarch64环境（待测）
+2. windows和linux环境自适应，支持aarch64环境（待测）
 3. 支持GPU（需要低版本cuda）
 4. 使用方便：只依赖jdk，打开就用。
 
