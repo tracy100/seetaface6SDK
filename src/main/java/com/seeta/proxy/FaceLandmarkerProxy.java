@@ -3,7 +3,6 @@ package com.seeta.proxy;
 import com.seeta.pool.FaceLandmarkerPool;
 import com.seeta.pool.SeetaConfSetting;
 import com.seeta.sdk.*;
-import javafx.util.Pair;
 
 
 /**

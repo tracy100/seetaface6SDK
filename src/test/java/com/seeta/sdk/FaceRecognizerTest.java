@@ -3,6 +3,8 @@ package com.seeta.sdk;
 import com.seeta.sdk.util.LoadNativeCore;
 import com.seeta.sdk.util.SeetafaceUtil;
 
+import java.util.Arrays;
+
 
 /**
  * 人脸向量特征测试
@@ -11,7 +13,7 @@ public class FaceRecognizerTest {
 
 
     public static String CSTA_PATH = "D:\\face\\models";
-    public static String TEST_PICT = "D:\\face\\11.jpg";
+
 
     static {
         LoadNativeCore.LOAD_NATIVE(SeetaDevice.SEETA_DEVICE_AUTO);
@@ -40,8 +42,8 @@ public class FaceRecognizerTest {
             System.out.println(faceRecognizer.GetExtractFeatureSize());
 
             //两张图片
-            String fileName = "D:\\face\\11.jpg";
-            String fileName2 = "D:\\face\\22.jpg";
+            String fileName = "D:\\face\\image\\me\\33.jpg";
+            String fileName2 = "D:\\face\\image\\me\\22.jpg";
             //第1张照片
             SeetaImageData image1 = SeetafaceUtil.toSeetaImageData(fileName);
             //第一张照片人脸识别
@@ -70,6 +72,10 @@ public class FaceRecognizerTest {
             float[] features2 = new float[faceRecognizer.GetExtractFeatureSize()];
             faceRecognizer.Extract(image2, pointFS2, features2);
 
+            System.out.println(Arrays.toString(features1));
+            System.out.println(Arrays.toString(features1).length());
+            System.out.println(Arrays.toString(features2));
+            System.out.println(Arrays.toString(features2).length());
             //两个人脸向量做对比，得出分数
             if (features1 != null && features2 != null) {
                 float calculateSimilarity = faceRecognizer.CalculateSimilarity(features1, features2);

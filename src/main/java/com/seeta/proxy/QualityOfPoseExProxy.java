@@ -60,7 +60,7 @@ public class QualityOfPoseExProxy {
      * @return pitch     [output] face location in pitch 俯仰中的面部位置
      * @return roll      [oputput] face location in roll  面卷中的位置
      */
-    private PoseExItem checkCore(SeetaImageData imageData, SeetaRect face, SeetaPointF[] landmarks) {
+    public PoseExItem checkCore(SeetaImageData imageData, SeetaRect face, SeetaPointF[] landmarks) {
         float[] yaw = new float[1];
         float[] pitch = new float[1];
         float[] roll = new float[1];
@@ -83,7 +83,7 @@ public class QualityOfPoseExProxy {
 
     }
 
-    class PoseExItem {
+    public class PoseExItem {
 
         private float yaw;
         private float pitch;
