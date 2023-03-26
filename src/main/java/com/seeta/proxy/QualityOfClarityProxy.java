@@ -12,11 +12,11 @@ public class QualityOfClarityProxy {
     private QualityOfClarityPool pool;
 
 
-    private QualityOfClarityProxy() {
+    public QualityOfClarityProxy() {
+        pool = new QualityOfClarityPool( new SeetaConfSetting());
     }
 
     public QualityOfClarityProxy(SeetaConfSetting setting) {
-
         pool = new QualityOfClarityPool(setting);
     }
 

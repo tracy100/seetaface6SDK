@@ -11,8 +11,10 @@ public class QualityOfBrightnessProxy {
 
     private QualityOfBrightnessPool pool;
 
-    private QualityOfBrightnessProxy() {
+    public QualityOfBrightnessProxy() {
+        pool = new QualityOfBrightnessPool(new SeetaConfSetting());
     }
+
 
     public QualityOfBrightnessProxy(SeetaConfSetting confSetting) {
         pool = new QualityOfBrightnessPool(confSetting);

@@ -1,5 +1,7 @@
 package com.seeta.sdk;
 
+import java.io.FileNotFoundException;
+
 /**
  * 人脸跟踪器,人脸跟踪器会对输入的彩色图像或者灰度图像中的人脸进行跟踪，并返回所有跟踪到的人脸信息。
  */
@@ -12,6 +14,13 @@ public class FaceTracker {
 
     public FaceTracker(String seetaModel, int videoWidth, int videoHeight) {
         this.construct(seetaModel, videoWidth, videoHeight);
+    }
+
+    public FaceTracker(String[] seetaModel, int videoWidth, int videoHeight) throws FileNotFoundException {
+        if (seetaModel == null || seetaModel.length < 1 ) {
+            throw new FileNotFoundException("模型文件没找到");
+        }
+        this.construct(seetaModel[0], videoWidth, videoHeight);
     }
 
     /**

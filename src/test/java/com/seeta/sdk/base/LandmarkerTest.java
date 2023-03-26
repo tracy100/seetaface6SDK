@@ -1,5 +1,6 @@
-package com.seeta.sdk;
+package com.seeta.sdk.base;
 
+import com.seeta.sdk.*;
 import com.seeta.sdk.util.LoadNativeCore;
 import com.seeta.sdk.util.SeetafaceUtil;
 
@@ -12,9 +13,6 @@ import java.util.Arrays;
 public class LandmarkerTest {
 
 
-    public static String CSTA_PATH = "E:\\models";
-    public static String TEST_PICT = "E:\\111.jpg";
-
     /**
      * 加载dll
      */
@@ -24,18 +22,13 @@ public class LandmarkerTest {
 
     public static void main(String[] args) {
 
-        //模型文件
-        String[] detector_cstas = {CSTA_PATH + "/face_detector.csta"};
-
-        String[] landmarker_cstas = {CSTA_PATH + "/face_landmarker_mask_pts5.csta"};
         try {
-            //人脸检测
-            FaceDetector detector = new FaceDetector(new SeetaModelSetting(0, detector_cstas, SeetaDevice.SEETA_DEVICE_AUTO));
+            //人脸检测器
+            FaceDetector detector = new FaceDetector(new SeetaModelSetting(FileConstant.face_detector, SeetaDevice.SEETA_DEVICE_AUTO));
+            //人脸关键点定位器
+            FaceLandmarker faceLandmarker = new FaceLandmarker(new SeetaModelSetting(FileConstant.face_landmarker_pts5, SeetaDevice.SEETA_DEVICE_AUTO));
 
-            //人脸关键点定位
-            FaceLandmarker faceLandmarker = new FaceLandmarker(new SeetaModelSetting(0, landmarker_cstas, SeetaDevice.SEETA_DEVICE_AUTO));
-
-            BufferedImage imagea = SeetafaceUtil.toBufferedImage(TEST_PICT);
+            BufferedImage imagea = SeetafaceUtil.toBufferedImage(FileConstant.TEST_PICT);
             SeetaImageData image = SeetafaceUtil.toSeetaImageData(imagea);
             SeetaRect[] detects = detector.Detect(image);
 

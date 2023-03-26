@@ -1,5 +1,6 @@
-package com.seeta.sdk;
+package com.seeta.sdk.base;
 
+import com.seeta.sdk.*;
 import com.seeta.sdk.util.LoadNativeCore;
 import com.seeta.sdk.util.SeetafaceUtil;
 
@@ -11,7 +12,6 @@ import java.util.Arrays;
 public class QualityOfBirghtnessTest {
 
 
-    public static String CSTA_PATH = "D:\\face\\models";
     public static String TEST_PICT = "D:\\face\\image\\me\\88.jpg";
 
     static {
@@ -20,13 +20,11 @@ public class QualityOfBirghtnessTest {
 
     public static void main(String[] args) {
 
-        String[] detector_cstas = {CSTA_PATH + "/face_detector.csta"};
-
-        String[] landmarker_cstas = {CSTA_PATH + "/face_landmarker_pts5.csta"};
         try {
-            FaceDetector detector = new FaceDetector(new SeetaModelSetting(-1, detector_cstas, SeetaDevice.SEETA_DEVICE_AUTO));
-
-            FaceLandmarker faceLandmarker = new FaceLandmarker(new SeetaModelSetting(-1, landmarker_cstas, SeetaDevice.SEETA_DEVICE_AUTO));
+            //人脸检测器
+            FaceDetector detector = new FaceDetector(new SeetaModelSetting(FileConstant.face_detector, SeetaDevice.SEETA_DEVICE_AUTO));
+            //人脸关键点定位器
+            FaceLandmarker faceLandmarker = new FaceLandmarker(new SeetaModelSetting(FileConstant.face_landmarker_pts5, SeetaDevice.SEETA_DEVICE_AUTO));
 
             QualityOfBrightness qualityOfBrightness = new QualityOfBrightness();
 

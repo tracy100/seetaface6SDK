@@ -1,19 +1,18 @@
-package com.seeta.sdk;
+package com.seeta.sdk.thread;
 
+import com.seeta.sdk.*;
 import com.seeta.sdk.util.LoadNativeCore;
 import com.seeta.sdk.util.SeetafaceUtil;
 
-public class ThreadTest {
 
+/**
+ * 这个测试是 失败的 长久运行可能导致内存溢出
+ */
+public class BaseThreadTest {
 
-    public static String CSTA_PATH = "D:\\face\\models";
-    public static String TEST_PICT = "E:\\face-search\\face-search-test\\src\\main\\resources\\image\\validate\\search\\460f29423cf109d10fe262fb3cff685f.jpeg";
-    public static String[] detector_cstas = {CSTA_PATH + "/face_detector.csta"};
-    public static String[] landmarker_cstas = {CSTA_PATH + "/face_landmarker_pts5.csta"};
-    public static String[] recognizer_cstas = {CSTA_PATH + "/face_recognizer_mask.csta"};
 
     static {
-        LoadNativeCore.LOAD_NATIVE(SeetaDevice.SEETA_DEVICE_AUTO);
+        LoadNativeCore.LOAD_NATIVE(SeetaDevice.SEETA_DEVICE_GPU);
     }
 
     public static void main(String[] args) {
@@ -42,15 +41,15 @@ public class ThreadTest {
         FaceLandmarker faceLandmarker = null;
         FaceRecognizer faceRecognizer = null;
         try {
-            detector = new FaceDetector(new SeetaModelSetting(0, detector_cstas, SeetaDevice.SEETA_DEVICE_GPU));
-            faceLandmarker = new FaceLandmarker(new SeetaModelSetting(0, landmarker_cstas, SeetaDevice.SEETA_DEVICE_GPU));
-            faceRecognizer = new FaceRecognizer(new SeetaModelSetting(0, recognizer_cstas, SeetaDevice.SEETA_DEVICE_GPU));
+            detector = new FaceDetector(new SeetaModelSetting(FileConstant.face_detector, SeetaDevice.SEETA_DEVICE_GPU));
+            faceLandmarker = new FaceLandmarker(new SeetaModelSetting(FileConstant.face_landmarker_pts5, SeetaDevice.SEETA_DEVICE_GPU));
+            faceRecognizer = new FaceRecognizer(new SeetaModelSetting(FileConstant.face_recognizer, SeetaDevice.SEETA_DEVICE_GPU));
 
             String fileName = "D:\\face\\image\\me\\00.jpg";
             String fileName2 = "D:\\face\\image\\me\\11.jpg";
             SeetaImageData image1 = SeetafaceUtil.toSeetaImageData(fileName);
             SeetaRect[] detects1 = detector.Detect(image1);
-            float[] features1 = new float[512];
+            float[] features1 = new float[faceRecognizer.GetExtractFeatureSize()];
             SeetaPointF[] pointFS1 = new SeetaPointF[5];
             int[] masks1 = new int[5];
             faceLandmarker.mark(image1, detects1[0], pointFS1, masks1);
@@ -58,14 +57,14 @@ public class ThreadTest {
 
             SeetaImageData image2 = SeetafaceUtil.toSeetaImageData(fileName2);
             SeetaRect[] detects2 = detector.Detect(image2);
-            float[] features2 = new float[512];
+            float[] features2 = new float[faceRecognizer.GetExtractFeatureSize()];
             SeetaPointF[] pointFS2 = new SeetaPointF[5];
             int[] masks2 = new int[5];
             faceLandmarker.mark(image2, detects2[0], pointFS2, masks2);
             faceRecognizer.Extract(image2, pointFS2, features2);
             if (features1 != null && features2 != null) {
                 float calculateSimilarity = faceRecognizer.CalculateSimilarity(features1, features2);
-                System.out.printf("相似度:%f\n",  calculateSimilarity);
+                System.out.printf("相似度:%f\n", calculateSimilarity);
             }
 
         } catch (Exception e) {

@@ -11,7 +11,9 @@ public class QualityOfIntegrityProxy {
 
     private QualityOfIntegrityPool pool;
 
-    private QualityOfIntegrityProxy() {
+    public QualityOfIntegrityProxy() {
+
+        pool = new QualityOfIntegrityPool(new SeetaConfSetting());
     }
 
     public QualityOfIntegrityProxy(SeetaConfSetting setting) {

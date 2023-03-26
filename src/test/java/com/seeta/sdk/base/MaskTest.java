@@ -1,6 +1,7 @@
-package com.seeta.sdk;
+package com.seeta.sdk.base;
 
 
+import com.seeta.sdk.*;
 import com.seeta.sdk.util.LoadNativeCore;
 import com.seeta.sdk.util.SeetafaceUtil;
 
@@ -18,19 +19,14 @@ public class MaskTest {
 
     public static void main(String[] args) {
 
-        //模型文件
-        String[] detector_cstas = {CSTA_PATH + "/face_detector.csta"};
-        String[] landmarker_cstas = {CSTA_PATH + "/face_landmarker_pts5.csta"};
-        //口罩模型文件
-        String[] mask_cstas = {CSTA_PATH + "/mask_detector.csta"};
 
         try {
             //人脸检测器
-            FaceDetector detector = new FaceDetector(new SeetaModelSetting(0, detector_cstas, SeetaDevice.SEETA_DEVICE_AUTO));
+            FaceDetector detector = new FaceDetector(new SeetaModelSetting(FileConstant.face_detector, SeetaDevice.SEETA_DEVICE_AUTO));
             //人脸关键点定位器
-            FaceLandmarker faceLandmarker = new FaceLandmarker(new SeetaModelSetting(0, landmarker_cstas, SeetaDevice.SEETA_DEVICE_AUTO));
+            FaceLandmarker faceLandmarker = new FaceLandmarker(new SeetaModelSetting(FileConstant.face_landmarker_pts5, SeetaDevice.SEETA_DEVICE_AUTO));
             //口罩检测器
-            MaskDetector maskDetector = new MaskDetector(new SeetaModelSetting(0, mask_cstas, SeetaDevice.SEETA_DEVICE_AUTO));
+            MaskDetector maskDetector = new MaskDetector(new SeetaModelSetting(FileConstant.mask_cstas, SeetaDevice.SEETA_DEVICE_AUTO));
             //图片数据
             SeetaImageData image = SeetafaceUtil.toSeetaImageData(TEST_PICT);
             SeetaRect[] detects = detector.Detect(image);

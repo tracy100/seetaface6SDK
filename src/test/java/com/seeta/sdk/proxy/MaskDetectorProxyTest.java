@@ -9,43 +9,57 @@ import com.seeta.sdk.*;
 import com.seeta.sdk.util.LoadNativeCore;
 import com.seeta.sdk.util.SeetafaceUtil;
 
+import java.io.FileNotFoundException;
+
 /**
  * 口罩检测器
  */
 public class MaskDetectorProxyTest {
 
-    //模型文件夹路径
-    public static String CSTA_PATH = "E:\\models";
+    //人脸识别检测器对象池配置，可以配置对象的个数哦
+    public static SeetaConfSetting detectorPoolSetting;
 
-    //图片路径
-    public static String fileName = "E:\\111.jpg";
-
-    //模型文件代码
-    public static String[] detector_cstas = {CSTA_PATH + "/face_detector.csta"};
-    public static String[] mask_detector_cstas = {CSTA_PATH + "/mask_detector.csta"};
+    //人脸关键点定位器对象池配置
+    public static SeetaConfSetting faceLandmarkerPoolSetting;
 
 
-    /**
-     * 加载dll
-     */
+    //口罩检测器对象池配置，可以配置对象的个数哦
+    public static SeetaConfSetting maskDetectorPoolSetting;
+
     static {
         LoadNativeCore.LOAD_NATIVE(SeetaDevice.SEETA_DEVICE_AUTO);
+        try {
+            detectorPoolSetting = new SeetaConfSetting(
+                    new SeetaModelSetting(FileConstant.face_detector, SeetaDevice.SEETA_DEVICE_AUTO));
+
+            faceLandmarkerPoolSetting = new SeetaConfSetting(
+                    new SeetaModelSetting(FileConstant.face_landmarker_pts5, SeetaDevice.SEETA_DEVICE_AUTO));
+
+            maskDetectorPoolSetting = new SeetaConfSetting(new SeetaModelSetting(FileConstant.mask_cstas, SeetaDevice.SEETA_DEVICE_AUTO));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
-    public static void main(String[] args) {
+    //人脸检测器对象池代理 ， spring boot可以用FaceDetectorProxy来配置Bean
+    public static FaceDetectorProxy faceDetectorProxy = new FaceDetectorProxy(detectorPoolSetting);
+
+    //人脸关键点定位器对象池代理 ， spring boot可以用FaceLandmarkerProxy来配置Bean
+    public static FaceLandmarkerProxy faceLandmarkerProxy = new FaceLandmarkerProxy(faceLandmarkerPoolSetting);
+
+    //口罩检测器对象池代理 ， spring boot可以用MaskDetectorProxy来配置Bean
+    public static MaskDetectorProxy maskDetectorProxy = new MaskDetectorProxy(maskDetectorPoolSetting);
+
+
+    public static void main(String[] args) throws FileNotFoundException {
 
         //人脸识别检测器对象池配置，可以配置对象的个数哦
-        SeetaConfSetting detectorPoolSetting = new SeetaConfSetting(new SeetaModelSetting(0, detector_cstas, SeetaDevice.SEETA_DEVICE_AUTO));
+        SeetaConfSetting detectorPoolSetting = new SeetaConfSetting(new SeetaModelSetting(FileConstant.face_detector, SeetaDevice.SEETA_DEVICE_AUTO));
         //人脸检测器对象池代理 ， spring boot可以用FaceDetectorProxy来配置Bean
         FaceDetectorProxy faceDetectorProxy = new FaceDetectorProxy(detectorPoolSetting);
 
-        //口罩检测器对象池配置，可以配置对象的个数哦
-        SeetaConfSetting maskDetectorPoolSetting = new SeetaConfSetting(new SeetaModelSetting(0, mask_detector_cstas, SeetaDevice.SEETA_DEVICE_AUTO));
-        //口罩检测器对象池代理 ， spring boot可以用MaskDetectorProxy来配置Bean
-        MaskDetectorProxy maskDetectorProxy = new MaskDetectorProxy(maskDetectorPoolSetting);
-
         try {
-            SeetaImageData image = SeetafaceUtil.toSeetaImageData(fileName);
+            SeetaImageData image = SeetafaceUtil.toSeetaImageData(FileConstant.TEST_PICT);
             SeetaRect[] detects = faceDetectorProxy.detect(image);
             for (SeetaRect seetaRect : detects) {
                 MaskDetectorProxy.MaskItem detect = maskDetectorProxy.detect(image, seetaRect);

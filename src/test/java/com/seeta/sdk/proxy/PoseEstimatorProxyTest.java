@@ -4,43 +4,49 @@ import com.seeta.pool.SeetaConfSetting;
 import com.seeta.proxy.FaceDetectorProxy;
 import com.seeta.proxy.FaceLandmarkerProxy;
 import com.seeta.proxy.PoseEstimatorProxy;
-import com.seeta.sdk.SeetaDevice;
-import com.seeta.sdk.SeetaImageData;
-import com.seeta.sdk.SeetaModelSetting;
-import com.seeta.sdk.SeetaRect;
+import com.seeta.sdk.*;
 import com.seeta.sdk.util.LoadNativeCore;
 import com.seeta.sdk.util.SeetafaceUtil;
 
+import java.io.FileNotFoundException;
+
 public class PoseEstimatorProxyTest {
 
+    //人脸识别检测器对象池配置，可以配置对象的个数哦
+    public static SeetaConfSetting detectorPoolSetting;
 
-    public static String CSTA_PATH = "D:\\face\\models";
+    //人脸关键点定位器对象池配置
+    public static SeetaConfSetting faceLandmarkerPoolSetting;
 
-    public static String[] detector_cstas = {CSTA_PATH + "/face_detector.csta"};
-
-    public static String[] landmarker_cstas = {CSTA_PATH + "/face_landmarker_pts5.csta"};
-
-    public static String[] pose_estimation_cstas = {CSTA_PATH + "/pose_estimation.csta"};
-
-
-    public static String fileName = "D:\\face\\image\\me\\00.jpg";
+    public static SeetaConfSetting poseEstimatorPoolSetting;
 
     static {
         LoadNativeCore.LOAD_NATIVE(SeetaDevice.SEETA_DEVICE_AUTO);
+        try {
+            detectorPoolSetting = new SeetaConfSetting(
+                    new SeetaModelSetting(FileConstant.face_detector, SeetaDevice.SEETA_DEVICE_AUTO));
+
+            faceLandmarkerPoolSetting = new SeetaConfSetting(
+                    new SeetaModelSetting(FileConstant.face_landmarker_pts5, SeetaDevice.SEETA_DEVICE_AUTO));
+
+            poseEstimatorPoolSetting = new SeetaConfSetting(new SeetaModelSetting(FileConstant.pose_estimation, SeetaDevice.SEETA_DEVICE_AUTO));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
-    public static void main(String[] args) {
+    //人脸检测器对象池代理 ， spring boot可以用FaceDetectorProxy来配置Bean
+    public static FaceDetectorProxy faceDetectorProxy = new FaceDetectorProxy(detectorPoolSetting);
 
-        //人脸识别检测器对象池配置，可以配置对象的个数哦
-        SeetaConfSetting detectorPoolSetting = new SeetaConfSetting(new SeetaModelSetting(0, detector_cstas, SeetaDevice.SEETA_DEVICE_AUTO));
-        //人脸检测器对象池代理 ， spring boot可以用FaceDetectorProxy来配置Bean
-        FaceDetectorProxy faceDetectorProxy = new FaceDetectorProxy(detectorPoolSetting);
+    //人脸关键点定位器对象池代理 ， spring boot可以用FaceLandmarkerProxy来配置Bean
+    public static FaceLandmarkerProxy faceLandmarkerProxy = new FaceLandmarkerProxy(faceLandmarkerPoolSetting);
 
-        SeetaConfSetting poseEstimatorPoolSetting = new SeetaConfSetting(new SeetaModelSetting(0, pose_estimation_cstas, SeetaDevice.SEETA_DEVICE_AUTO));
-        PoseEstimatorProxy poseEstimatorProxy = new PoseEstimatorProxy(poseEstimatorPoolSetting);
+    public static PoseEstimatorProxy poseEstimatorProxy = new PoseEstimatorProxy(poseEstimatorPoolSetting);
+
+    public static void main(String[] args) throws FileNotFoundException {
 
         try {
-            SeetaImageData image = SeetafaceUtil.toSeetaImageData(fileName);
+            SeetaImageData image = SeetafaceUtil.toSeetaImageData(FileConstant.TEST_PICT);
             SeetaRect[] detects = faceDetectorProxy.detect(image);
             for (SeetaRect seetaRect : detects) {
 

@@ -4,6 +4,8 @@ import com.seeta.sdk.SeetaDevice;
 import com.seeta.sdk.SeetaModelSetting;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
+import java.io.FileNotFoundException;
+
 
 /**
  * 用于构建常用的配置
@@ -35,13 +37,13 @@ public class SeetaConfSetting extends GenericObjectPoolConfig {
     public SeetaConfSetting(SeetaModelSetting seetaModelSetting) {
         this.seetaModelSetting = seetaModelSetting;
     }
-    public SeetaConfSetting(int id, String[] models, SeetaDevice dev) {
+    public SeetaConfSetting(int id, String[] models, SeetaDevice dev) throws FileNotFoundException {
         this.seetaModelSetting = new SeetaModelSetting(id,models,dev);
     }
-    public SeetaConfSetting(String[] models) {
+    public SeetaConfSetting(String[] models) throws FileNotFoundException {
         this.seetaModelSetting = new SeetaModelSetting(0,models,SeetaDevice.SEETA_DEVICE_AUTO);
     }
-    public SeetaConfSetting(String model) {
+    public SeetaConfSetting(String model) throws FileNotFoundException {
         this.seetaModelSetting = new SeetaModelSetting(0, new String[]{model},SeetaDevice.SEETA_DEVICE_AUTO);
     }
 

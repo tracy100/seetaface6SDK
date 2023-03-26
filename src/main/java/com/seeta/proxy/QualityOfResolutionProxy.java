@@ -12,7 +12,9 @@ public class QualityOfResolutionProxy {
     private QualityOfResolutionPool pool;
 
 
-    private QualityOfResolutionProxy() {
+    public QualityOfResolutionProxy() {
+
+        pool = new QualityOfResolutionPool(new SeetaConfSetting());
     }
 
     public QualityOfResolutionProxy(SeetaConfSetting confSetting) {

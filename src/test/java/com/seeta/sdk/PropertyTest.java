@@ -1,6 +1,6 @@
 package com.seeta.sdk;
 
-public class Test {
+public class PropertyTest {
     public static void main(String[] args) {
 
         System.out.println(System.getProperty("os.name"));

@@ -1,5 +1,6 @@
-package com.seeta.sdk;
+package com.seeta.sdk.base;
 
+import com.seeta.sdk.*;
 import com.seeta.sdk.util.LoadNativeCore;
 import com.seeta.sdk.util.SeetafaceUtil;
 
@@ -21,13 +22,11 @@ public class QualityOfIntegrityTest {
 
     public static void main(String[] args) {
 
-        String[] detector_cstas = {CSTA_PATH + "/face_detector.csta"};
 
-        String[] landmarker_cstas = {CSTA_PATH + "/face_landmarker_pts5.csta"};
         try {
-            FaceDetector detector = new FaceDetector(new SeetaModelSetting(0, detector_cstas, SeetaDevice.SEETA_DEVICE_AUTO));
+            FaceDetector detector = new FaceDetector(new SeetaModelSetting(FileConstant.face_detector, SeetaDevice.SEETA_DEVICE_AUTO));
 
-            FaceLandmarker faceLandmarker = new FaceLandmarker(new SeetaModelSetting(0, landmarker_cstas, SeetaDevice.SEETA_DEVICE_AUTO));
+            FaceLandmarker faceLandmarker = new FaceLandmarker(new SeetaModelSetting(FileConstant.face_landmarker_pts5, SeetaDevice.SEETA_DEVICE_AUTO));
 
             SeetaImageData image = SeetafaceUtil.toSeetaImageData(TEST_PICT);
             SeetaRect[] detects = detector.Detect(image);

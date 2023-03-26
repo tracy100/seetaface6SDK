@@ -11,7 +11,8 @@ public class QualityOfPoseProxy {
 
     private QualityOfPosePool pool;
 
-    private QualityOfPoseProxy() {
+    public QualityOfPoseProxy() {
+        pool = new QualityOfPosePool(new SeetaConfSetting());
     }
 
     public QualityOfPoseProxy(SeetaConfSetting confSetting) {

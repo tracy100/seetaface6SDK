@@ -24,6 +24,43 @@ public class SeetafaceUtil {
 
     private static final int[] BGR_TYPE = {0, 1, 2};
 
+
+    /**
+     * 将Mat 转为SeetaImage
+     *
+     * @param bufferedImage 图片
+     * @return BGR属性
+     * @author YaoCai Lin
+     * @time 2023年3月18日 13:14:39
+     */
+//    public static SeetaImageData mat2SeetaImageData(Mat matrix) {
+//        int cols = matrix.cols();
+//        int rows = matrix.rows();
+//        int elemSize = (int) matrix.elemSize();
+//        byte[] data = new byte[cols * rows * elemSize];
+//        matrix.data().get(data);
+//        switch (matrix.channels()) {
+//            case 1:
+//                break;
+//            case 3:
+//                byte b;
+//                for (int i = 0; i < data.length; i = i + 3) {
+//                    b = data[i];
+//                    data[i] = data[i + 2];
+//                    data[i + 2] = b;
+//                }
+//                break;
+//            default:
+//                return null;
+//        }
+//        SeetaImageData seetaImageData = new SeetaImageData(cols, rows, matrix.channels());
+//        seetaImageData.data = data;
+//
+//        return seetaImageData;
+//    }
+
+
+
     /**
      * 将BufferedImage转为SeetaImage
      *

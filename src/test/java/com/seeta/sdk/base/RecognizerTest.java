@@ -1,5 +1,6 @@
-package com.seeta.sdk;
+package com.seeta.sdk.base;
 
+import com.seeta.sdk.*;
 import com.seeta.sdk.util.LoadNativeCore;
 import com.seeta.sdk.util.SeetafaceUtil;
 
@@ -17,15 +18,10 @@ public class RecognizerTest {
 
     public static void main(String[] args) {
 
-        String[] detector_cstas = {CSTA_PATH + "/face_detector.csta"};
-
-        String[] landmarker_cstas = {CSTA_PATH + "/face_landmarker_pts5.csta"};
-
-        String[] recognizer_cstas = {CSTA_PATH + "/face_recognizer_mask.csta"};
         try {
-            detector = new FaceDetector(new SeetaModelSetting(0, detector_cstas, SeetaDevice.SEETA_DEVICE_AUTO));
-            faceLandmarker = new FaceLandmarker(new SeetaModelSetting(0, landmarker_cstas, SeetaDevice.SEETA_DEVICE_AUTO));
-            faceRecognizer = new FaceRecognizer(new SeetaModelSetting(0, recognizer_cstas, SeetaDevice.SEETA_DEVICE_AUTO));
+            detector = new FaceDetector(new SeetaModelSetting(FileConstant.face_detector, SeetaDevice.SEETA_DEVICE_AUTO));
+            faceLandmarker = new FaceLandmarker(new SeetaModelSetting(FileConstant.face_landmarker_pts5, SeetaDevice.SEETA_DEVICE_AUTO));
+            faceRecognizer = new FaceRecognizer(new SeetaModelSetting(FileConstant.face_recognizer, SeetaDevice.SEETA_DEVICE_AUTO));
             String fileName = "D:\\face\\image\\me\\00.jpg";
             String fileName2 = "D:\\face\\image\\me\\mask2.jpg";
             float[] features1 = extract(fileName);
