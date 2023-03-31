@@ -6,7 +6,7 @@ import com.seeta.sdk.util.SeetafaceUtil;
 
 
 /**
- * 这个测试是 失败的 长久运行可能导致内存溢出
+ * 单个对象测试
  */
 public class BaseThreadTest {
 

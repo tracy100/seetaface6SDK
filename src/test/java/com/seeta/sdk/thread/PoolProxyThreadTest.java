@@ -12,7 +12,7 @@ import java.io.FileNotFoundException;
 
 
 /**
- * 这个测试是 失败的 长久运行可能导致内存溢出
+ * 线程池测试
  */
 public class PoolProxyThreadTest {
 
