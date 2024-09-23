@@ -29,13 +29,13 @@ public class PoolProxyThreadTest {
         LoadNativeCore.LOAD_NATIVE(SeetaDevice.SEETA_DEVICE_GPU);
         try {
             detectorPoolSetting = new SeetaConfSetting(
-                    new SeetaModelSetting(FileConstant.face_detector, SeetaDevice.SEETA_DEVICE_AUTO));
+                    new SeetaModelSetting(FileConstant.face_detector, SeetaDevice.SEETA_DEVICE_GPU));
 
             faceLandmarkerPoolSetting = new SeetaConfSetting(
-                    new SeetaModelSetting(FileConstant.face_landmarker_pts5, SeetaDevice.SEETA_DEVICE_AUTO));
+                    new SeetaModelSetting(FileConstant.face_landmarker_pts5, SeetaDevice.SEETA_DEVICE_GPU));
 
             faceRecognizerPoolSetting = new SeetaConfSetting(
-                    new SeetaModelSetting(FileConstant.face_recognizer, SeetaDevice.SEETA_DEVICE_AUTO));
+                    new SeetaModelSetting(FileConstant.face_recognizer, SeetaDevice.SEETA_DEVICE_GPU));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

@@ -51,9 +51,7 @@ public class LoadNativeCore {
                 List<DllItem> baseList = new ArrayList<>();
                 List<DllItem> jniList = new ArrayList<>();
 
-                Iterator<Map.Entry<Object, Object>> iterator = properties.entrySet().iterator();
-                while (iterator.hasNext()) {
-                    Map.Entry<Object, Object> entry = iterator.next();
+                for (Map.Entry<Object, Object> entry : properties.entrySet()) {
                     String key = (String) entry.getKey();
                     String value = (String) entry.getValue();
                     DllItem dllItem = new DllItem();
@@ -71,16 +69,16 @@ public class LoadNativeCore {
                     }
                 }
 
-                /**
-                 * 将文件分类
+                /*
+                  将文件分类
                  */
                 List<String> basePath = getSortedPath(baseList);
                 List<String> sdkPath = getSortedPath(jniList);
 
                 List<File> fileList = new ArrayList<>();
 
-                /**
-                 * 拷贝文件到临时目录
+                /*
+                  拷贝文件到临时目录
                  */
                 for (String b : basePath) {
                     fileList.add(copyDLL(b));
@@ -170,27 +168,29 @@ public class LoadNativeCore {
      * @return List<String>
      */
     private static List<String> getSortedPath(List<DllItem> list) {
-        List<String> sortedPath = list.stream().sorted(Comparator.comparing(dllItem -> {
+        return list.stream().sorted(Comparator.comparing(dllItem -> {
             int i = dllItem.getKey().lastIndexOf(".") + 1;
             String substring = dllItem.getKey().substring(i);
             return Integer.valueOf(substring);
-        })).map(dllItem -> dllItem.getValue()).collect(Collectors.toList());
-        return sortedPath;
+        })).map(DllItem::getValue).collect(Collectors.toList());
     }
 
     /**
      * 复制 resource 中的dll文件到临时目录
-     *
-     * @param path
-     * @return
-     * @throws IOException
+     * @param path 路径
+     * @return File 文件
+     * @throws IOException 异常
      */
     private static File copyDLL(String path) throws IOException {
-        String nativeTempDir = System.getProperty("java.io.tmpdir");
+        String nativeTempDir = System.getProperty("user.dir");
         File extractedLibFile = new File(nativeTempDir + File.separator + path);
         mkdirs(extractedLibFile.getParent());
         InputStream in = LoadNativeCore.class.getResourceAsStream(path);
-        writeToLocalTemp(extractedLibFile.getAbsolutePath(), in);
+        if (in != null) {
+            writeToLocalTemp(extractedLibFile.getAbsolutePath(), in);
+        } else {
+            throw new IOException(String.format("Could not find %s", path));
+        }
 
         return extractedLibFile;
     }
