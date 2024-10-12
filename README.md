@@ -2,7 +2,7 @@
 
 ### 1.介绍
 1. 本项目是基于seetaface6源码和seetaface6JNI源码编译得到的一个sdk项目
-2. windows和linux环境自适应。（支持aarch64环境--待测）
+2. windows和linux环境自适应。（支持aarch64环境--待测）,有小伙伴在国产麒麟aarch64服务器上跑成功过；
 3. 支持GPU
 4. jdk8-jdk14 都可用
 
