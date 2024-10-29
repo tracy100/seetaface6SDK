@@ -19,7 +19,7 @@
 3.  本项目可以直接打包成jar，导入本地maven仓库或是私服，或install,其他项目直接引用jar就可以了。
 4.  支持windows和Linux。 arm后续看需求再支持 
 5.  GPU环境需要安装显卡驱动和cuda（注意版本对应），我编译用的是512.15和11.6.2
-6.   
+6.  实际使用，可以参考另外一个项目：[spring boot,pgvector,mybatis,seetaface6SDK](https://gitee.com/crazy-of-pig/spring-boot-seetaface6.git)
 7.  **觉得好的是不是可以点个 star**
 
 ### 4.功能
