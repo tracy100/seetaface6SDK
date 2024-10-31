@@ -65,7 +65,34 @@
   下载c++运行时依赖执行安装就好。 [下载链接](https://www.xitongzhijia.net/soft/234968.html)
 
 #### 3.docker中运行少依赖libgomp.so这些？
-  缺什么补什么, dockerfile中添加一行 ```RUN apt-get update && apt install -y libgomp```
+  提供一个Dockerfile
+ ```
+# 使用一个基础镜像，这里以官方的Java镜像为例
+FROM openjdk:8
+
+# 设置作者信息
+LABEL maintainer="linyc1993@outlook.com"
+
+# 更新apt-get源，并安装libgomp1库
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends libgomp1 && \
+    rm -rf /var/lib/apt/lists/*
+
+# 创建数据目录
+RUN mkdir -p /data/app && mkdir -p /data/models
+
+# 将JAR包复制到容器内的/data/app目录
+COPY spring-boot-seetaface6-1.0.0.jar /data/app/spring-boot-seetaface6-1.0.0.jar
+
+# 将模型文件复制到容器内的/data/models目录
+COPY ./*.csta /data/models/
+
+# 设置默认的工作目录
+WORKDIR /data/app
+
+# 定义运行时执行的命令，这里假设JAR包是可执行的
+CMD ["java", "-jar", "spring-boot-seetaface6-1.0.0.jar"]
+```
 
 #### 4.在spring boot项目中配置bean？
 建议使用封装好的对象池代理作为bean，配置如下：
