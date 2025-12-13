@@ -26,18 +26,14 @@ public class FaceRecognizerProxyTest {
 
     static {
         LoadNativeCore.LOAD_NATIVE(SeetaDevice.SEETA_DEVICE_AUTO);
-        try {
-            detectorPoolSetting = new SeetaConfSetting(
-                    new SeetaModelSetting(FileConstant.face_detector, SeetaDevice.SEETA_DEVICE_AUTO));
+        detectorPoolSetting = new SeetaConfSetting(
+                new SeetaModelSetting(FileConstant.face_detector, SeetaDevice.SEETA_DEVICE_AUTO));
 
-            faceLandmarkerPoolSetting = new SeetaConfSetting(
-                    new SeetaModelSetting(FileConstant.face_landmarker_pts5, SeetaDevice.SEETA_DEVICE_AUTO));
+        faceLandmarkerPoolSetting = new SeetaConfSetting(
+                new SeetaModelSetting(FileConstant.face_landmarker_pts5, SeetaDevice.SEETA_DEVICE_AUTO));
 
-            faceRecognizerPoolSetting = new SeetaConfSetting(
-                    new SeetaModelSetting(FileConstant.face_recognizer, SeetaDevice.SEETA_DEVICE_AUTO));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        faceRecognizerPoolSetting = new SeetaConfSetting(
+                new SeetaModelSetting(FileConstant.face_recognizer, SeetaDevice.SEETA_DEVICE_AUTO));
     }
 
     //人脸检测器对象池代理 ， spring boot可以用FaceDetectorProxy来配置Bean
@@ -49,8 +45,8 @@ public class FaceRecognizerProxyTest {
     //人脸特征提取器，人脸特征相似度计算器
     public static FaceRecognizerProxy faceRecognizerProxy = new FaceRecognizerProxy(faceRecognizerPoolSetting);
 
-    public static String fileName = "D:\\face\\image\\me\\00.jpg";
-    public static String fileName2 = "D:\\face\\image\\me\\11.jpg";
+    public static String fileName = "E:\\face\\image\\me\\00.jpg";
+    public static String fileName2 = "E:\\face\\image\\me\\11.jpg";
 
     public static void main(String[] args) throws FileNotFoundException {
 

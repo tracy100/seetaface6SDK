@@ -1,5 +1,7 @@
 package com.seeta.proxy;
 
+import com.seeta.sdk.exception.SeetaResourceException;
+import com.seeta.sdk.exception.SeetaException;
 import com.seeta.pool.MaskDetectorPool;
 import com.seeta.pool.SeetaConfSetting;
 import com.seeta.sdk.MaskDetector;
@@ -30,7 +32,7 @@ public class MaskDetectorProxy {
             detect = maskDetector.detect(imageData, face, score);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new SeetaException("操作失败: " + e.getMessage(), e);
         } finally {
             if (maskDetector != null) {
                 pool.returnObject(maskDetector);

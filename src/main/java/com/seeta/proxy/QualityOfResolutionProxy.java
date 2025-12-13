@@ -1,5 +1,7 @@
 package com.seeta.proxy;
 
+import com.seeta.sdk.exception.SeetaResourceException;
+import com.seeta.sdk.exception.SeetaException;
 import com.seeta.pool.QualityOfResolutionPool;
 import com.seeta.pool.SeetaConfSetting;
 import com.seeta.sdk.QualityOfResolution;
@@ -41,7 +43,7 @@ public class QualityOfResolutionProxy {
             qualityOfResolution = pool.borrowObject();
             qualityLevel = qualityOfResolution.check(imageData, face, landmarks, score);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new SeetaException("操作失败: " + e.getMessage(), e);
         } finally {
             if (qualityOfResolution != null) {
                 pool.returnObject(qualityOfResolution);

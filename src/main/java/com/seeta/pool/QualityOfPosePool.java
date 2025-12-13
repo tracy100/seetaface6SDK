@@ -1,5 +1,6 @@
 package com.seeta.pool;
 
+import com.seeta.sdk.exception.SeetaResourceException;
 import com.seeta.sdk.QualityOfPose;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.PooledObjectFactory;
@@ -34,9 +35,11 @@ public class QualityOfPosePool extends GenericObjectPool<QualityOfPose> {
             }
 
             @Override
-            public void destroyObject(PooledObject<QualityOfPose> pooledObject) throws Exception {
+            public void destroyObject(PooledObject<QualityOfPose> pooledObject) throws SeetaResourceException {
                 QualityOfPose object = pooledObject.getObject();
-                object = null;
+                if (object != null) {
+                    object.dispose();
+                }
             }
 
             /**

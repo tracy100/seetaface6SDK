@@ -1,5 +1,7 @@
 package com.seeta.proxy;
 
+import com.seeta.sdk.exception.SeetaResourceException;
+import com.seeta.sdk.exception.SeetaException;
 import com.seeta.pool.QualityOfClarityPool;
 import com.seeta.pool.SeetaConfSetting;
 import com.seeta.sdk.QualityOfClarity;
@@ -13,7 +15,7 @@ public class QualityOfClarityProxy {
 
 
     public QualityOfClarityProxy() {
-        pool = new QualityOfClarityPool( new SeetaConfSetting());
+        pool = new QualityOfClarityPool(new SeetaConfSetting());
     }
 
     public QualityOfClarityProxy(SeetaConfSetting setting) {
@@ -33,7 +35,7 @@ public class QualityOfClarityProxy {
             check = qualityOfClarity.check(imageData, face, landmarks, score);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new SeetaException("操作失败: " + e.getMessage(), e);
         } finally {
             if (qualityOfClarity != null) {
                 pool.returnObject(qualityOfClarity);

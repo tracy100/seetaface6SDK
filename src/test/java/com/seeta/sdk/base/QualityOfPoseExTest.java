@@ -12,7 +12,7 @@ import java.util.*;
  */
 public class QualityOfPoseExTest {
 
-    public static String TEST_PICT = "D:\\face\\image\\me\\11.jpg";
+    public static String TEST_PICT = "E:\\face\\image\\me\\11.jpg";
 
     static {
         LoadNativeCore.LOAD_NATIVE(SeetaDevice.SEETA_DEVICE_AUTO);

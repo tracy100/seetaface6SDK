@@ -1,5 +1,6 @@
 package com.seeta.pool;
 
+import com.seeta.sdk.exception.SeetaResourceException;
 import com.seeta.sdk.QualityOfLBN;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.PooledObjectFactory;
@@ -34,9 +35,11 @@ public class QualityOfLBNPool extends GenericObjectPool<QualityOfLBN> {
             }
 
             @Override
-            public void destroyObject(PooledObject<QualityOfLBN> pooledObject) throws Exception {
+            public void destroyObject(PooledObject<QualityOfLBN> pooledObject) throws SeetaResourceException {
                 QualityOfLBN object = pooledObject.getObject();
-                object = null;
+                if (object != null) {
+                    object.dispose();
+                }
             }
 
             /**

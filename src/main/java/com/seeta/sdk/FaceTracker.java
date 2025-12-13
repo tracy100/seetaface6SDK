@@ -17,7 +17,7 @@ public class FaceTracker {
     }
 
     public FaceTracker(String[] seetaModel, int videoWidth, int videoHeight) throws FileNotFoundException {
-        if (seetaModel == null || seetaModel.length < 1 ) {
+        if (seetaModel == null || seetaModel.length < 1) {
             throw new FileNotFoundException("模型文件没找到");
         }
         this.construct(seetaModel[0], videoWidth, videoHeight);

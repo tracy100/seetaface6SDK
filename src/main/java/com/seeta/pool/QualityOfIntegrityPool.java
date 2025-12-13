@@ -1,5 +1,6 @@
 package com.seeta.pool;
 
+import com.seeta.sdk.exception.SeetaResourceException;
 import com.seeta.sdk.QualityOfIntegrity;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.PooledObjectFactory;
@@ -34,9 +35,11 @@ public class QualityOfIntegrityPool extends GenericObjectPool<QualityOfIntegrity
             }
 
             @Override
-            public void destroyObject(PooledObject<QualityOfIntegrity> pooledObject) throws Exception {
+            public void destroyObject(PooledObject<QualityOfIntegrity> pooledObject) throws SeetaResourceException {
                 QualityOfIntegrity object = pooledObject.getObject();
-                object = null;
+                if (object != null) {
+                    object.dispose();
+                }
             }
 
             /**

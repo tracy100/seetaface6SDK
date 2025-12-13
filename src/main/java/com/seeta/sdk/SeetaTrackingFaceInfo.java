@@ -10,7 +10,6 @@ public class SeetaTrackingFaceInfo {
     public int PID;
 
 
-
     @Override
     public String toString() {
         return "SeetaTrackingFaceInfo{" +

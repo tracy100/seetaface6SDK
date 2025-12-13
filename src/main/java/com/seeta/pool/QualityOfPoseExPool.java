@@ -1,6 +1,6 @@
 package com.seeta.pool;
 
-import com.seeta.sdk.AgePredictor;
+import com.seeta.sdk.exception.SeetaResourceException;
 import com.seeta.sdk.QualityOfPoseEx;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.PooledObjectFactory;
@@ -35,9 +35,11 @@ public class QualityOfPoseExPool extends GenericObjectPool<QualityOfPoseEx> {
             }
 
             @Override
-            public void destroyObject(PooledObject<QualityOfPoseEx> pooledObject) throws Exception {
+            public void destroyObject(PooledObject<QualityOfPoseEx> pooledObject) throws SeetaResourceException {
                 QualityOfPoseEx object = pooledObject.getObject();
-                object = null;
+                if (object != null) {
+                    object.dispose();
+                }
             }
 
             /**

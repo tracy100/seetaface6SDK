@@ -1,6 +1,7 @@
 package com.seeta.sdk.util;
 
 import com.seeta.sdk.SeetaDevice;
+import com.seeta.sdk.exception.SeetaInitializationException;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -17,30 +18,26 @@ import java.util.stream.Collectors;
  */
 public class LoadNativeCore {
 
-    private static Logger logger = Logger.getLogger(LoadNativeCore.class.getName());
-
+    public static final String SEETAFACE6 = "seetaface6";
     /**
      * 定义dll 路径和加载顺序的文件
      */
     private static final String PROPERTIES_FILE_NAME = "dll.properties";
-
-    public static final String SEETAFACE6 = "seetaface6";
+    private static Logger logger = Logger.getLogger(LoadNativeCore.class.getName());
+    /**
+     * 是否加载过
+     */
+    private static volatile boolean isLoaded = false;
 
     public static void main(String[] args) {
-         LOAD_NATIVE(SeetaDevice.SEETA_DEVICE_AUTO);
+        LOAD_NATIVE(SeetaDevice.SEETA_DEVICE_AUTO);
 
 //        System.out.println(getPrefix());
 //        System.out.println(getPropertiesPath());
 
     }
 
-    /**
-     * 是否加载过
-     */
-    private static volatile boolean isLoaded = false;
-
-
-    public static synchronized void LOAD_NATIVE(SeetaDevice seetaDevice) {
+    public static synchronized void LOAD_NATIVE(SeetaDevice seetaDevice) throws SeetaInitializationException {
 
         if (!isLoaded) {
             String device = getDevice(seetaDevice);
@@ -177,6 +174,7 @@ public class LoadNativeCore {
 
     /**
      * 复制 resource 中的dll文件到临时目录
+     *
      * @param path 路径
      * @return File 文件
      * @throws IOException 异常

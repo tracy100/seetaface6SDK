@@ -1,5 +1,6 @@
 package com.seeta.pool;
 
+import com.seeta.sdk.exception.SeetaResourceException;
 import com.seeta.sdk.FaceRecognizer;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.PooledObjectFactory;
@@ -23,10 +24,12 @@ public class FaceRecognizerPool extends GenericObjectPool<FaceRecognizer> {
             }
 
             @Override
-            public void destroyObject(PooledObject<FaceRecognizer> pooledObject) throws Exception {
+            public void destroyObject(PooledObject<FaceRecognizer> pooledObject) throws SeetaResourceException {
 
                 FaceRecognizer object = pooledObject.getObject();
-                object = null;
+                if (object != null) {
+                    object.dispose();
+                }
 
             }
 

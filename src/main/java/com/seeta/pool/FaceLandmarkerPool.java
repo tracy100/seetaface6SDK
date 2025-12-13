@@ -1,5 +1,6 @@
 package com.seeta.pool;
 
+import com.seeta.sdk.exception.SeetaResourceException;
 import com.seeta.sdk.FaceLandmarker;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.PooledObjectFactory;
@@ -16,16 +17,17 @@ public class FaceLandmarkerPool extends GenericObjectPool<FaceLandmarker> {
         super(new PooledObjectFactory<FaceLandmarker>() {
 
             @Override
-            public PooledObject<FaceLandmarker> makeObject() throws Exception {
+            public PooledObject<FaceLandmarker> makeObject() throws SeetaResourceException {
                 FaceLandmarker faceLandmarker = new FaceLandmarker(config.getSeetaModelSetting());
                 return new DefaultPooledObject<>(faceLandmarker);
             }
 
             @Override
-            public void destroyObject(PooledObject<FaceLandmarker> pooledObject) throws Exception {
+            public void destroyObject(PooledObject<FaceLandmarker> pooledObject) throws SeetaResourceException {
                 FaceLandmarker object = pooledObject.getObject();
-
-                object = null;
+                if (object != null) {
+                    object.dispose();
+                }
             }
 
             @Override

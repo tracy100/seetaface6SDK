@@ -1,5 +1,7 @@
 package com.seeta.proxy;
 
+import com.seeta.sdk.exception.SeetaResourceException;
+import com.seeta.sdk.exception.SeetaException;
 import com.seeta.pool.FaceLandmarkerPool;
 import com.seeta.pool.SeetaConfSetting;
 import com.seeta.sdk.*;
@@ -31,7 +33,7 @@ public class FaceLandmarkerProxy {
             faceLandmarker.mark(imageData, seetaRect, pointFS);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new SeetaException("操作失败: " + e.getMessage(), e);
         } finally {
             if (faceLandmarker != null) {
                 pool.returnObject(faceLandmarker);
@@ -52,7 +54,7 @@ public class FaceLandmarkerProxy {
             landmarkerMask.setMasks(masks);
             landmarkerMask.setSeetaPointFS(pointFS);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new SeetaException("操作失败: " + e.getMessage(), e);
         } finally {
             if (faceLandmarker != null) {
                 pool.returnObject(faceLandmarker);
@@ -69,7 +71,7 @@ public class FaceLandmarkerProxy {
                 return faceLandmarker.number();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new SeetaException("操作失败: " + e.getMessage(), e);
         } finally {
             if (faceLandmarker != null) {
                 pool.returnObject(faceLandmarker);

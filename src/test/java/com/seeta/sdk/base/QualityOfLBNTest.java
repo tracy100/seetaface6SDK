@@ -11,7 +11,7 @@ import java.util.Arrays;
  */
 public class QualityOfLBNTest {
 
-    public static String TEST_PICT = "D:\\face\\image\\me\\33.jpg";
+    public static String TEST_PICT = "E:\\face\\image\\me\\33.jpg";
 
     static {
         LoadNativeCore.LOAD_NATIVE(SeetaDevice.SEETA_DEVICE_AUTO);

@@ -1,5 +1,7 @@
 package com.seeta.proxy;
 
+import com.seeta.sdk.exception.SeetaResourceException;
+import com.seeta.sdk.exception.SeetaException;
 import com.seeta.pool.FaceDetectorPool;
 import com.seeta.pool.SeetaConfSetting;
 import com.seeta.sdk.FaceDetector;
@@ -13,7 +15,8 @@ public class FaceDetectorProxy {
 
     private FaceDetectorPool faceDetectorPool;
 
-    private FaceDetectorProxy(){}
+    private FaceDetectorProxy() {
+    }
 
     public FaceDetectorProxy(SeetaConfSetting config) {
         faceDetectorPool = new FaceDetectorPool(config);
@@ -28,7 +31,7 @@ public class FaceDetectorProxy {
         try {
             faceDetector = faceDetectorPool.borrowObject();
             detect = faceDetector.Detect(image);
-        }finally {
+        } finally {
             if (faceDetector != null) {
                 faceDetectorPool.returnObject(faceDetector);
             }

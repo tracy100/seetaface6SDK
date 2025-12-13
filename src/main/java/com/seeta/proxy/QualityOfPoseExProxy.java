@@ -1,5 +1,7 @@
 package com.seeta.proxy;
 
+import com.seeta.sdk.exception.SeetaResourceException;
+import com.seeta.sdk.exception.SeetaException;
 import com.seeta.pool.QualityOfPoseExPool;
 import com.seeta.pool.SeetaConfSetting;
 import com.seeta.sdk.QualityOfPoseEx;
@@ -40,7 +42,7 @@ public class QualityOfPoseExProxy {
             qualityLevel = qualityOfPoseEx.check(imageData, face, landmarks, scors);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new SeetaException("操作失败: " + e.getMessage(), e);
         } finally {
             if (qualityOfPoseEx != null) {
 
@@ -72,7 +74,7 @@ public class QualityOfPoseExProxy {
 
             qualityOfPoseEx.check(imageData, face, landmarks, yaw, pitch, roll);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new SeetaException("操作失败: " + e.getMessage(), e);
         } finally {
             if (qualityOfPoseEx != null) {
                 pool.returnObject(qualityOfPoseEx);

@@ -1,5 +1,7 @@
 package com.seeta.proxy;
 
+import com.seeta.sdk.exception.SeetaResourceException;
+import com.seeta.sdk.exception.SeetaException;
 import com.seeta.pool.EyeStateDetectorPool;
 import com.seeta.pool.SeetaConfSetting;
 import com.seeta.sdk.EyeStateDetector;
@@ -28,7 +30,7 @@ public class EyeStateDetectorProxy {
             states = eyeStateDetector.detect(imageData, points);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new SeetaException("操作失败: " + e.getMessage(), e);
         } finally {
             if (eyeStateDetector != null) {
                 pool.returnObject(eyeStateDetector);

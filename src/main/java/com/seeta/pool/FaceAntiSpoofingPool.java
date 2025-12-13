@@ -1,5 +1,6 @@
 package com.seeta.pool;
 
+import com.seeta.sdk.exception.SeetaResourceException;
 import com.seeta.sdk.FaceAntiSpoofing;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.PooledObjectFactory;
@@ -34,9 +35,11 @@ public class FaceAntiSpoofingPool extends GenericObjectPool<FaceAntiSpoofing> {
             }
 
             @Override
-            public void destroyObject(PooledObject<FaceAntiSpoofing> pooledObject) throws Exception {
+            public void destroyObject(PooledObject<FaceAntiSpoofing> pooledObject) throws SeetaResourceException {
                 FaceAntiSpoofing object = pooledObject.getObject();
-                object = null;
+                if (object != null) {
+                    object.dispose();
+                }
             }
 
             /**

@@ -1,5 +1,6 @@
 package com.seeta.pool;
 
+import com.seeta.sdk.exception.SeetaResourceException;
 import com.seeta.sdk.AgePredictor;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.PooledObjectFactory;
@@ -37,9 +38,11 @@ public class AgePredictorPool extends GenericObjectPool<AgePredictor> {
             }
 
             @Override
-            public void destroyObject(PooledObject<AgePredictor> pooledObject) throws Exception {
+            public void destroyObject(PooledObject<AgePredictor> pooledObject) throws SeetaResourceException {
                 AgePredictor object = pooledObject.getObject();
-                object = null;
+                if (object != null) {
+                    object.dispose();
+                }
             }
 
             /**

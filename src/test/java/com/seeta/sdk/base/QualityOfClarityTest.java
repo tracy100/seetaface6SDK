@@ -14,8 +14,7 @@ import java.util.Arrays;
 public class QualityOfClarityTest {
 
 
-    public static String CSTA_PATH = "D:\\face\\models";
-    public static String TEST_PICT = "D:\\face\\image\\me\\10.jpg";
+    public static String TEST_PICT = "E:\\face\\image\\me\\10.jpg";
 
     static {
         LoadNativeCore.LOAD_NATIVE(SeetaDevice.SEETA_DEVICE_AUTO);

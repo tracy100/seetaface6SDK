@@ -37,14 +37,17 @@ public class SeetaConfSetting extends GenericObjectPoolConfig {
     public SeetaConfSetting(SeetaModelSetting seetaModelSetting) {
         this.seetaModelSetting = seetaModelSetting;
     }
+
     public SeetaConfSetting(int id, String[] models, SeetaDevice dev) throws FileNotFoundException {
-        this.seetaModelSetting = new SeetaModelSetting(id,models,dev);
+        this.seetaModelSetting = new SeetaModelSetting(id, models, dev);
     }
+
     public SeetaConfSetting(String[] models) throws FileNotFoundException {
-        this.seetaModelSetting = new SeetaModelSetting(0,models,SeetaDevice.SEETA_DEVICE_AUTO);
+        this.seetaModelSetting = new SeetaModelSetting(0, models, SeetaDevice.SEETA_DEVICE_AUTO);
     }
+
     public SeetaConfSetting(String model) throws FileNotFoundException {
-        this.seetaModelSetting = new SeetaModelSetting(0, new String[]{model},SeetaDevice.SEETA_DEVICE_AUTO);
+        this.seetaModelSetting = new SeetaModelSetting(0, new String[]{model}, SeetaDevice.SEETA_DEVICE_AUTO);
     }
 
 

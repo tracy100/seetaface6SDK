@@ -10,7 +10,7 @@ public class RecognizerTest {
 
     public static FaceLandmarker faceLandmarker = null;
     public static FaceRecognizer faceRecognizer = null;
-    public static String CSTA_PATH = "D:\\face\\models";
+
 
     static {
         LoadNativeCore.LOAD_NATIVE(SeetaDevice.SEETA_DEVICE_AUTO);
@@ -22,8 +22,8 @@ public class RecognizerTest {
             detector = new FaceDetector(new SeetaModelSetting(FileConstant.face_detector, SeetaDevice.SEETA_DEVICE_AUTO));
             faceLandmarker = new FaceLandmarker(new SeetaModelSetting(FileConstant.face_landmarker_pts5, SeetaDevice.SEETA_DEVICE_AUTO));
             faceRecognizer = new FaceRecognizer(new SeetaModelSetting(FileConstant.face_recognizer, SeetaDevice.SEETA_DEVICE_AUTO));
-            String fileName = "D:\\face\\image\\me\\00.jpg";
-            String fileName2 = "D:\\face\\image\\me\\mask2.jpg";
+            String fileName = "E:\\face\\image\\me\\00.jpg";
+            String fileName2 = "E:\\face\\image\\me\\mask2.jpg";
             float[] features1 = extract(fileName);
             float[] features2 = extract(fileName2);
 

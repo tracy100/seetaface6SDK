@@ -9,6 +9,8 @@ import com.seeta.sdk.util.LoadNativeCore;
 import com.seeta.sdk.util.SeetafaceUtil;
 
 import java.io.FileNotFoundException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 /**
@@ -26,19 +28,17 @@ public class PoolProxyThreadTest {
     public static  SeetaConfSetting faceRecognizerPoolSetting;
 
     static {
-        LoadNativeCore.LOAD_NATIVE(SeetaDevice.SEETA_DEVICE_GPU);
-        try {
+        LoadNativeCore.LOAD_NATIVE(SeetaDevice.SEETA_DEVICE_CPU);
+
             detectorPoolSetting = new SeetaConfSetting(
-                    new SeetaModelSetting(FileConstant.face_detector, SeetaDevice.SEETA_DEVICE_GPU));
+                    new SeetaModelSetting(FileConstant.face_detector, SeetaDevice.SEETA_DEVICE_CPU));
 
             faceLandmarkerPoolSetting = new SeetaConfSetting(
-                    new SeetaModelSetting(FileConstant.face_landmarker_pts5, SeetaDevice.SEETA_DEVICE_GPU));
+                    new SeetaModelSetting(FileConstant.face_landmarker_pts5, SeetaDevice.SEETA_DEVICE_CPU));
 
             faceRecognizerPoolSetting = new SeetaConfSetting(
-                    new SeetaModelSetting(FileConstant.face_recognizer, SeetaDevice.SEETA_DEVICE_GPU));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+                    new SeetaModelSetting(FileConstant.face_recognizer, SeetaDevice.SEETA_DEVICE_CPU));
+
     }
 
     //人脸检测器对象池代理 ， spring boot可以用FaceDetectorProxy来配置Bean
@@ -52,16 +52,21 @@ public class PoolProxyThreadTest {
 
 
     public static void main(String[] args) {
-//创建多线程对象
-        MyThread mt1 = new MyThread();
-        MyThread mt2 = new MyThread();
-        MyThread mt3 = new MyThread();
+        
+        int threadCount = 5;
 
-        //调用start()方法，其内部调用了run()方法，实现了多线程
-        //在这里直接调用run()方法，不能实现多线程
-        mt1.start();
-        mt2.start();
-        mt3.start();
+        System.out.println("使用线程数: " + threadCount);
+
+        // 创建线程池
+        ExecutorService executor = Executors.newFixedThreadPool(threadCount);
+
+        // 提交任务到线程池
+        for (int i = 0; i < threadCount; i++) {
+            executor.submit(new MyThread());
+        }
+
+        // 关闭线程池
+        executor.shutdown();
 
     }
 
@@ -72,11 +77,12 @@ public class PoolProxyThreadTest {
      * @time 2020年7月15日 下午12:10:56
      */
     private static void extract() {
- 
+        long startTime = System.nanoTime(); // 记录开始时间
+
         try {
 
-            String fileName = "D:\\face\\image\\me\\00.jpg";
-            String fileName2 = "D:\\face\\image\\me\\11.jpg";
+            String fileName = "E:\\face\\image\\me\\00.jpg";
+            String fileName2 = "E:\\face\\image\\me\\11.jpg";
             SeetaImageData image1 = SeetafaceUtil.toSeetaImageData(fileName);
             SeetaImageData image2 = SeetafaceUtil.toSeetaImageData(fileName2);
 
@@ -98,7 +104,9 @@ public class PoolProxyThreadTest {
                 //对比向量特征数组
                 if (features1 != null && features2 != null) {
                     float calculateSimilarity = faceRecognizerProxy.cosineSimilarity(features1, features2);
-                    System.out.printf(Thread.currentThread().getName() + ",相似度:%f\n", calculateSimilarity);
+                    long endTime = System.nanoTime(); // 记录结束时间
+                    double durationMs = (endTime - startTime) / 1_000_000.0; // 转换为毫秒
+                    System.out.printf(Thread.currentThread().getName() + ",相似度:%f,耗时:%.2fms\n", calculateSimilarity, durationMs);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

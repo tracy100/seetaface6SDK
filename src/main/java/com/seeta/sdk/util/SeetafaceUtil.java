@@ -2,6 +2,7 @@ package com.seeta.sdk.util;
 
 
 import com.seeta.sdk.SeetaImageData;
+import com.seeta.sdk.exception.SeetaImageException;
 import com.seeta.sdk.SeetaRect;
 
 import javax.imageio.ImageIO;
@@ -17,6 +18,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 /**
+ * SeetaFace6图像处理工具类
  * @author YaoCai Lin
  * @time 2020年6月18日 下午1:12:42
  */
@@ -60,7 +62,6 @@ public class SeetafaceUtil {
 //    }
 
 
-
     /**
      * 将BufferedImage转为SeetaImage
      *
@@ -69,7 +70,10 @@ public class SeetafaceUtil {
      * @author YaoCai Lin
      * @time 2020年6月18日 下午1:14:39
      */
-    public static SeetaImageData toSeetaImageData(BufferedImage bufferedImage) {
+    public static SeetaImageData toSeetaImageData(BufferedImage bufferedImage) throws SeetaImageException {
+        if (bufferedImage == null) {
+            throw SeetaImageException.imageNull();
+        }
         if (bufferedImage == null) {
             throw new NullPointerException("图片不能为空.");
         }
@@ -161,13 +165,22 @@ public class SeetafaceUtil {
      * @author YaoCai Lin
      * @time 2020年7月9日 下午3:03:42
      */
-    public static BufferedImage toBufferedImage(File file) {
-        BufferedImage image = null;
+    /**
+     * 从File对象加载BufferedImage
+     * @param file 文件对象
+     * @return BufferedImage对象
+     * @throws SeetaImageException 图像处理异常
+     */
+    public static BufferedImage toBufferedImage(File file) throws SeetaImageException {
         try {
-            image = ImageIO.read(file);
+            BufferedImage image = ImageIO.read(file);
+            if (image == null) {
+                throw SeetaImageException.imageFormatInvalid("未知或不支持的格式");
+            }
+            return image;
         } catch (IOException e) {
+            throw SeetaImageException.imageLoadFailed(file.getAbsolutePath(), e);
         }
-        return image;
     }
 
     /**

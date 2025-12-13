@@ -1,5 +1,7 @@
 package com.seeta.proxy;
 
+import com.seeta.sdk.exception.SeetaResourceException;
+import com.seeta.sdk.exception.SeetaException;
 import com.seeta.pool.QualityOfIntegrityPool;
 import com.seeta.pool.SeetaConfSetting;
 import com.seeta.sdk.QualityOfIntegrity;
@@ -31,7 +33,7 @@ public class QualityOfIntegrityProxy {
             qualityOfIntegrity = pool.borrowObject();
             qualityLevel = qualityOfIntegrity.check(imageData, face, landmarks, score);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new SeetaException("操作失败: " + e.getMessage(), e);
         } finally {
             if (qualityOfIntegrity != null) {
                 pool.returnObject(qualityOfIntegrity);

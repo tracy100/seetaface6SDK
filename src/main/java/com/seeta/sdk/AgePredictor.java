@@ -2,8 +2,9 @@ package com.seeta.sdk;
 
 /**
  * 年龄估计器
+ *
  * @author YaoCai Lin
- * 
+ *
  */
 public class AgePredictor {
 //    static{
@@ -39,15 +40,16 @@ public class AgePredictor {
 
     /**
      * 获取照片的年龄评估
-     * @param image SeetaImageData
+     *
+     * @param image  SeetaImageData
      * @param points points
      * @return 将接口重写，使其符合java代码正常写法
      */
-    public Integer predictAgeWithCrop(SeetaImageData image, SeetaPointF[] points){
+    public Integer predictAgeWithCrop(SeetaImageData image, SeetaPointF[] points) {
         int[] ages = new int[1];
-        this.PredictAgeWithCrop(image,points,ages);
+        this.PredictAgeWithCrop(image, points, ages);
 
-        if (ages != null && ages.length>=1) {
+        if (ages != null && ages.length >= 1) {
             return ages[0];
         }
         return null;

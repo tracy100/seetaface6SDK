@@ -1,5 +1,6 @@
 package com.seeta.pool;
 
+import com.seeta.sdk.exception.SeetaResourceException;
 import com.seeta.sdk.PoseEstimator;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.PooledObjectFactory;
@@ -33,9 +34,11 @@ public class PoseEstimatorPool extends GenericObjectPool<PoseEstimator> {
             }
 
             @Override
-            public void destroyObject(PooledObject<PoseEstimator> pooledObject) throws Exception {
+            public void destroyObject(PooledObject<PoseEstimator> pooledObject) throws SeetaResourceException {
                 PoseEstimator object = pooledObject.getObject();
-                object = null;
+                if (object != null) {
+                    object.dispose();
+                }
             }
 
             /**

@@ -1,5 +1,6 @@
 package com.seeta.pool;
 
+import com.seeta.sdk.exception.SeetaResourceException;
 import com.seeta.sdk.MaskDetector;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.PooledObjectFactory;
@@ -34,9 +35,11 @@ public class MaskDetectorPool extends GenericObjectPool<MaskDetector> {
             }
 
             @Override
-            public void destroyObject(PooledObject<MaskDetector> pooledObject) throws Exception {
+            public void destroyObject(PooledObject<MaskDetector> pooledObject) throws SeetaResourceException {
                 MaskDetector object = pooledObject.getObject();
-                object = null;
+                if (object != null) {
+                    object.dispose();
+                }
             }
 
             /**

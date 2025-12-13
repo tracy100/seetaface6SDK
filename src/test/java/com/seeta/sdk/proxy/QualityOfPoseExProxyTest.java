@@ -25,17 +25,13 @@ public class QualityOfPoseExProxyTest {
 
     static {
         LoadNativeCore.LOAD_NATIVE(SeetaDevice.SEETA_DEVICE_AUTO);
-        try {
-            detectorPoolSetting = new SeetaConfSetting(
-                    new SeetaModelSetting(FileConstant.face_detector, SeetaDevice.SEETA_DEVICE_AUTO));
+        detectorPoolSetting = new SeetaConfSetting(
+                new SeetaModelSetting(FileConstant.face_detector, SeetaDevice.SEETA_DEVICE_AUTO));
 
-            faceLandmarkerPoolSetting = new SeetaConfSetting(
-                    new SeetaModelSetting(FileConstant.face_landmarker_pts5, SeetaDevice.SEETA_DEVICE_AUTO));
+        faceLandmarkerPoolSetting = new SeetaConfSetting(
+                new SeetaModelSetting(FileConstant.face_landmarker_pts5, SeetaDevice.SEETA_DEVICE_AUTO));
 
-            setting = new SeetaConfSetting(new SeetaModelSetting(FileConstant.pose_estimation, SeetaDevice.SEETA_DEVICE_AUTO));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        setting = new SeetaConfSetting(new SeetaModelSetting(FileConstant.pose_estimation, SeetaDevice.SEETA_DEVICE_AUTO));
     }
 
     //人脸检测器对象池代理 ， spring boot可以用FaceDetectorProxy来配置Bean

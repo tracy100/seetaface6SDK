@@ -1,5 +1,7 @@
 package com.seeta.proxy;
 
+import com.seeta.sdk.exception.SeetaResourceException;
+import com.seeta.sdk.exception.SeetaException;
 import com.seeta.pool.QualityOfLBNPool;
 import com.seeta.pool.SeetaConfSetting;
 import com.seeta.sdk.QualityOfLBN;
@@ -28,7 +30,7 @@ public class QualityOfLBNProxy {
             qualityOfLBN = pool.borrowObject();
             qualityOfLBN.Detect(imageData, points, light, blur, noise);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new SeetaException("操作失败: " + e.getMessage(), e);
         } finally {
             if (qualityOfLBN != null) {
                 pool.returnObject(qualityOfLBN);

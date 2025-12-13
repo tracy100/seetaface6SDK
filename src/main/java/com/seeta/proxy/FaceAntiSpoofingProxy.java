@@ -1,5 +1,7 @@
 package com.seeta.proxy;
 
+import com.seeta.sdk.exception.SeetaResourceException;
+import com.seeta.sdk.exception.SeetaException;
 import com.seeta.pool.FaceAntiSpoofingPool;
 import com.seeta.pool.SeetaConfSetting;
 import com.seeta.sdk.FaceAntiSpoofing;
@@ -28,7 +30,7 @@ public class FaceAntiSpoofingProxy {
             status = faceAntiSpoofing.Predict(image, face, landmarks);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new SeetaException("操作失败: " + e.getMessage(), e);
         } finally {
             if (faceAntiSpoofing != null) {
                 pool.returnObject(faceAntiSpoofing);

@@ -2,6 +2,7 @@ package com.seeta.sdk;
 
 /**
  * 眼睛状态估计器
+ *
  * @author YaoCai Lin
  */
 public class EyeStateDetector {
@@ -35,9 +36,10 @@ public class EyeStateDetector {
 
     /**
      * 眼睛状态
+     *
      * @param imageData
      * @param points
-     * @return  EYE_STATE[]
+     * @return EYE_STATE[]
      */
     public EYE_STATE[] detect(SeetaImageData imageData, SeetaPointF[] points) {
         EYE_STATE[] eyeStatus = new EYE_STATE[2];

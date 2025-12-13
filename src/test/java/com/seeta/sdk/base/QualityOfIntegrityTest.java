@@ -13,8 +13,7 @@ import java.util.Arrays;
 public class QualityOfIntegrityTest {
 
 
-    public static String CSTA_PATH = "D:\\face\\models";
-    public static String TEST_PICT = "D:\\face\\image\\me\\100.jpg";
+    public static String TEST_PICT = "E:\\face\\image\\me\\100.jpg";
 
     static {
         LoadNativeCore.LOAD_NATIVE(SeetaDevice.SEETA_DEVICE_AUTO);

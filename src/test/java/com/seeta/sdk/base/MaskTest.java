@@ -9,8 +9,7 @@ import com.seeta.sdk.util.SeetafaceUtil;
 public class MaskTest {
 
 
-    public static String CSTA_PATH = "D:\\face\\models";
-    public static String TEST_PICT = "D:\\face\\11.jpg";
+    public static String TEST_PICT = "E:\\face\\image\\me\\11.jpg";
 
     //加载dll
     static {

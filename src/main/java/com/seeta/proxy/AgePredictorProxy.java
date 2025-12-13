@@ -1,5 +1,7 @@
 package com.seeta.proxy;
 
+import com.seeta.sdk.exception.SeetaResourceException;
+import com.seeta.sdk.exception.SeetaException;
 import com.seeta.pool.AgePredictorPool;
 import com.seeta.pool.SeetaConfSetting;
 import com.seeta.sdk.AgePredictor;
@@ -32,7 +34,7 @@ public class AgePredictorProxy {
             agePredictor = pool.borrowObject();
             agePredictor.PredictAgeWithCrop(image, points, age);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new SeetaException("操作失败: " + e.getMessage(), e);
         } finally {
             if (agePredictor != null) {
                 pool.returnObject(agePredictor);

@@ -12,7 +12,7 @@ public class MemoryTest {
 
 
     static {
-        LoadNativeCore.LOAD_NATIVE(SeetaDevice.SEETA_DEVICE_GPU);
+        LoadNativeCore.LOAD_NATIVE(SeetaDevice.SEETA_DEVICE_CPU);
     }
 
     public static void main(String[] args) {
@@ -21,11 +21,11 @@ public class MemoryTest {
 
         try {
 
-            detector = new FaceDetector(new SeetaModelSetting(FileConstant.face_detector, SeetaDevice.SEETA_DEVICE_GPU));
-            faceLandmarker = new FaceLandmarker(new SeetaModelSetting(FileConstant.face_landmarker_pts5, SeetaDevice.SEETA_DEVICE_GPU));
-            faceRecognizer = new FaceRecognizer(new SeetaModelSetting(FileConstant.face_recognizer, SeetaDevice.SEETA_DEVICE_GPU));
-            String fileName = "D:\\face\\image\\me\\00.jpg";
-            String fileName2 = "D:\\face\\image\\me\\10.jpg";
+            detector = new FaceDetector(new SeetaModelSetting(FileConstant.face_detector, SeetaDevice.SEETA_DEVICE_CPU));
+            faceLandmarker = new FaceLandmarker(new SeetaModelSetting(FileConstant.face_landmarker_pts5, SeetaDevice.SEETA_DEVICE_CPU));
+            faceRecognizer = new FaceRecognizer(new SeetaModelSetting(FileConstant.face_recognizer, SeetaDevice.SEETA_DEVICE_CPU));
+            String fileName = "E:\\face\\image\\me\\00.jpg";
+            String fileName2 = "E:\\face\\image\\me\\10.jpg";
             for (int i = 0; i < 100; i++) {
                 float[] features1 = extract(fileName);
                 float[] features2 = extract(fileName2);

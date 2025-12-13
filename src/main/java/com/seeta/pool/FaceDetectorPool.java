@@ -1,5 +1,6 @@
 package com.seeta.pool;
 
+import com.seeta.sdk.exception.SeetaResourceException;
 import com.seeta.sdk.FaceDetector;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.PooledObjectFactory;
@@ -8,7 +9,7 @@ import org.apache.commons.pool2.impl.GenericObjectPool;
 
 
 /**
- *  人脸检测器连接池 检测到的每个人脸位置
+ * 人脸检测器连接池 检测到的每个人脸位置
  */
 public class FaceDetectorPool extends GenericObjectPool<FaceDetector> {
 
@@ -39,9 +40,11 @@ public class FaceDetectorPool extends GenericObjectPool<FaceDetector> {
             }
 
             @Override
-            public void destroyObject(PooledObject<FaceDetector> pooledObject)  throws Exception {
+            public void destroyObject(PooledObject<FaceDetector> pooledObject) throws SeetaResourceException {
                 FaceDetector object = pooledObject.getObject();
-                object = null;
+                if (object != null) {
+                    object.dispose();
+                }
             }
 
             /**
@@ -62,7 +65,7 @@ public class FaceDetectorPool extends GenericObjectPool<FaceDetector> {
              * @throws Exception
              */
             @Override
-            public void activateObject(PooledObject<FaceDetector> pooledObject)  throws Exception {
+            public void activateObject(PooledObject<FaceDetector> pooledObject) throws Exception {
                 FaceDetector object = pooledObject.getObject();
                 long impl = object.impl;
             }
@@ -73,7 +76,7 @@ public class FaceDetectorPool extends GenericObjectPool<FaceDetector> {
              * @throws Exception
              */
             @Override
-            public void passivateObject(PooledObject pooledObject)  throws Exception {
+            public void passivateObject(PooledObject pooledObject) throws Exception {
                 //nothing
             }
         }, config);
